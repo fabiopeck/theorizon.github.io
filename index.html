@@ -4,54 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Orizon Technologies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; }
+        body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background-color: #000; color: white; }
         
-        /* Container do Vídeo: Prioridade máxima na nitidez */
         .video-container { 
             position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
+            top: 0; left: 0; width: 100%; height: 100%; 
             z-index: -1; 
         }
         
         .video-container video { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: left center; /* Foco total na lateral esquerda */
+            width: 100%; height: 100%; object-fit: cover; 
+            object-position: left center;
         }
 
-        /* Área de Texto: Apenas o texto flutuando sem filtros no fundo */
+        /* Menu Hambúrguer */
+        .menu-btn {
+            position: fixed;
+            top: 40px; right: 40px;
+            z-index: 1000;
+            cursor: pointer;
+            background: none; border: none;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+
+        .menu-btn div {
+            width: 30px; height: 2px; background-color: white; transition: 0.4s;
+        }
+
+        /* Overlay do Menu */
+        .menu-overlay {
+            position: fixed;
+            top: 0; right: -100%; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 999;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+            padding: 40px;
+        }
+
+        .menu-overlay.active { right: 0; }
+
+        .menu-links { text-align: center; }
+        .menu-links a {
+            display: block;
+            color: white; text-decoration: none;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin: 10px 0; font-weight: 300; letter-spacing: 4px;
+            transition: 0.3s; cursor: pointer;
+        }
+        .menu-links a:hover { opacity: 0.5; padding-left: 10px; }
+
+        /* Conteúdo das Seções dentro do Menu */
+        .section-content {
+            display: none;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 30px;
+            animation: fadeIn 0.5s;
+        }
+
+        .section-content h2 { font-size: 1rem; letter-spacing: 5px; margin-bottom: 20px; color: #aaa; }
+        .section-content p { font-size: 0.9rem; line-height: 1.8; letter-spacing: 1px; text-transform: none; }
+
+        /* Main Content */
         .content { 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 20px;
         }
 
         h1 { 
-            font-size: 6rem; 
-            color: #ffffff; 
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* Sombra leve para garantir leitura sem embaçar o vídeo */
-            letter-spacing: -2px;
+            font-size: clamp(3.5rem, 10vw, 6rem); 
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+            letter-spacing: -2px; font-weight: 700;
         }
         
-        p { 
-            font-size: 1.5rem; 
-            color: #ffffff; 
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-            text-transform: uppercase; 
-            letter-spacing: 8px; 
+        .tagline { 
+            font-size: clamp(0.7rem, 2.5vw, 1rem); 
+            text-transform: uppercase; letter-spacing: 12px; 
+            font-weight: 300; margin-top: 10px;
+        }
+
+        /* Rodapé Padrão Internacional */
+        footer {
+            position: fixed; bottom: 30px; width: 100%;
+            padding: 0 40px; display: flex;
+            justify-content: space-between; align-items: flex-end;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.6rem; letter-spacing: 1px; z-index: 10;
+        }
+
+        .footer-left { text-transform: uppercase; }
+        .footer-right { text-align: right; }
+        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; }
+        .footer-right a:hover { color: white; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            footer { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+            .footer-right { text-align: center; }
+            .menu-btn { top: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        <div></div><div></div><div></div>
+    </button>
+
+    <nav class="menu-overlay" id="menuOverlay">
+        <div class="menu-links" id="mainMenu">
+            <a onclick="showSection('about')">QUEM SOMOS</a>
+            <a onclick="showSection('solutions')">SOLUÇÕES</a>
+            <a onclick="showSection('contact')">CONTATO</a>
+            <a onclick="showSection('help')">AJUDA</a>
+        </div>
+
+        <div id="about" class="section-content">
+            <h2>QUEM SOMOS</h2>
+            <p>A The Orizon Technologies é uma empresa focada em tecnologia estruturada e com governança sólida.</p>
+            <a onclick="backToMenu()" style="font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px;">VOLTAR</a>
+        </div>
+
+        <div id="contact" class="section-content">
+            <h2>CONTATO</h2>
+            <p>E-MAIL: CONTATO@THEORIZON.COM.BR<br>BH - SAVASSI - BRASIL</p>
+            <a onclick="backToMenu()" style="font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px;">VOLTAR</a>
+        </div>
+    </nav>
 
     <div class="video-container">
         <video autoplay muted loop playsinline>
@@ -61,8 +146,50 @@
 
     <div class="content">
         <h1>THE ORIZON</h1>
-        <p>Inovação e Tecnologia em Escala</p>
+        <p class="tagline">Inovação e Tecnologia em Escala</p>
     </div>
 
+    <footer>
+        <div class="footer-left">
+            <strong>THE ORIZON TECHNOLOGIES</strong> | CNPJ: 65.992.148/0001-03<br>
+            AV. GETÚLIO VARGAS, 671, SALA 500, SAVASSI, BH-MG
+        </div>
+        <p style="margin-top: 5px;">© 2026 THE ORIZON TECHNOLOGIES</p>
+        <div class="footer-right">
+            <a href="#">PRIVACIDADE</a>
+            <a href="#">ACESSIBILIDADE</a>
+            <a href="#">TERMOS</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            const lines = document.querySelectorAll('.menu-btn div');
+            
+            if(menu.classList.contains('active')) {
+                lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                lines[1].style.opacity = '0';
+                lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
+            } else {
+                lines[0].style.transform = 'none';
+                lines[1].style.opacity = '1';
+                lines[2].style.transform = 'none';
+                backToMenu(); // Reseta para o menu principal ao fechar
+            }
+        }
+
+        function showSection(id) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function backToMenu() {
+            document.getElementById('mainMenu').style.display = 'block';
+            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
+        }
+    </script>
 </body>
 </html>
