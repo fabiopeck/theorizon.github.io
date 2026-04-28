@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Orizon Technologies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background-color: #000; color: white; }
+        
+        /* BACKGROUND VIDEO */
+        .video-container { 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: -1; 
+        }
+        .video-container video { 
+            width: 100%; height: 100%; object-fit: cover; 
+            object-position: left center;
+        }
+
+        /* INTERFACE PRINCIPAL */
+        .content { 
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        h1 { font-size: clamp(3rem, 10vw, 6rem); text-shadow: 2px 2px 15px rgba(0,0,0,0.6); letter-spacing: -2px; font-weight: 700; text-align: center; }
+        .tagline { font-size: clamp(0.7rem, 2.5vw, 1rem); text-transform: uppercase; letter-spacing: 12px; font-weight: 300; margin-top: 10px; text-align: center; }
+
+        /* MENU BUTTON */
+        .menu-btn {
+            position: fixed;
+            top: 40px; right: 40px;
+            z-index: 1000;
+            cursor: pointer;
+            background: none; border: none;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .menu-btn div { width: 30px; height: 2px; background-color: white; transition: 0.4s; }
+
+        /* OVERLAYS (MENU E PRIVACIDADE) */
+        .overlay {
+            position: fixed;
+            top: 0; right: -100%; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+            padding: 40px;
+        }
+        .overlay.active { right: 0; }
+
+        /* CONTEÚDO DE PRIVACIDADE (ESTILO INTERNACIONAL) */
+        .privacy-container {
+            width: 100%;
+            max-width: 800px;
+            height: 80vh;
+            overflow-y: auto;
+            padding-right: 20px;
+            text-align: left;
+        }
+        .privacy-container::-webkit-scrollbar { width: 2px; }
+        .privacy-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+        .privacy-container::-webkit-scrollbar-thumb { background: white; }
+
+        .privacy-container h2 { font-size: 0.8rem; letter-spacing: 5px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
+        .privacy-container h3 { font-size: 1.2rem; font-weight: 700; margin: 40px 0 20px 0; letter-spacing: -0.5px; }
+        .privacy-container p { font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
+        
+        .close-privacy {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-privacy:hover { background: white; color: black; }
+
+        /* MENU LINKS */
+        .menu-links a {
+            display: block;
+            color: white; text-decoration: none;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin: 15px 0; font-weight: 300; letter-spacing: 4px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .menu-links a:hover { opacity: 0.5; }
+
+        /* RODAPÉ */
+        footer {
+            position: fixed; bottom: 30px; width: 100%;
+            padding: 0 40px; display: flex;
+            justify-content: space-between; align-items: flex-end;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.6rem; letter-spacing: 1px; z-index: 10;
+        }
+        footer a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; }
+        footer a:hover { color: white; }
+
+        @media (max-width: 768px) {
+            footer { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+            .menu-btn { top: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="background.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        <div></div><div></div><div></div>
+    </button>
+
+    <nav class="overlay" id="menuOverlay">
+        <div class="menu-links">
+            <a onclick="toggleMenu()">VOLTAR</a>
+            <a href="#">INSTITUCIONAL</a>
+            <a href="#">DESENVOLVIMENTO</a>
+            <a href="#">CONTATO</a>
+        </div>
+    </nav>
+
+    <div class="overlay" id="privacyOverlay">
+        <div class="privacy-container">
+            <h2>Políticas de Privacidade</h2>
+            <p>Última atualização: Abril 2026</p>
+
+            <h3>1. COMPROMISSO COM A PRIVACIDADE</h3>
+            <p>A The Orizon Technologies preza pela transparência e segurança da informação. Esta vitrine institucional foi desenhada para fornecer informações corporativas sem a coleta ativa de dados pessoais de navegação identificáveis, salvo quando estritamente necessário para a funcionalidade técnica da plataforma.</p>
+
+            <h3>2. COLETA DE DADOS TÉCNICOS</h3>
+            <p>Durante sua visita, poderemos coletar dados puramente técnicos, como endereço IP, tipo de navegador e tempo de permanência, exclusivamente para fins de análise de performance e segurança do servidor, em conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>
+
+            <h3>3. USO DE COOKIES</h3>
+            <p>Utilizamos cookies essenciais apenas para garantir que a interface e o conteúdo de vídeo carreguem de forma otimizada no seu dispositivo. Não utilizamos cookies de rastreamento para fins publicitários de terceiros.</p>
+
+            <h3>4. SEGURANÇA DA INFORMAÇÃO</h3>
+            <p>Implementamos protocolos rígidos de criptografia e governança digital para assegurar que qualquer comunicação via canais de suporte permaneça íntegra e confidencial.</p>
+
+            <h3>5. CONTATO</h3>
+            <p>Para questões sobre governança de dados, entre em contato através do canal oficial: contato@theorizon.com.br</p>
+        </div>
+        <div class="close-privacy" onclick="togglePrivacy()">FECHAR</div>
+    </div>
+
+    <div class="content">
+        <h1>THE ORIZON</h1>
+        <p class="tagline">Inovação e Tecnologia em Escala</p>
+    </div>
+
+    <footer>
+        <div class="footer-left">
+            <strong>THE ORIZON TECHNOLOGIES</strong> | CNPJ: 65.992.148/0001-03<br>
+            AV. GETÚLIO VARGAS, 671, SALA 500, SAVASSI, BH-MG
+        </div>
+        <div class="footer-right">
+            <a onclick="togglePrivacy()">PRIVACIDADE</a>
+            <a href="#">ACESSIBILIDADE</a>
+            <a href="#">TERMOS</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            const lines = document.querySelectorAll('.menu-btn div');
+            if(menu.classList.contains('active')) {
+                lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                lines[1].style.opacity = '0';
+                lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
+            } else {
+                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
+            }
+        }
+
+        function togglePrivacy() {
+            const privacy = document.getElementById('privacyOverlay');
+            privacy.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
