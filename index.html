@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Orizon Technologies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; }
@@ -40,29 +41,129 @@
             color: #ffffff; 
             text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* Sombra leve para garantir leitura sem embaçar o vídeo */
             letter-spacing: -2px;
+            font-weight: 700;
         }
         
-        p { 
+        .content p { 
             font-size: 1.5rem; 
             color: #ffffff; 
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
             text-transform: uppercase; 
             letter-spacing: 8px; 
+            font-weight: 300;
+        }
+
+        /* INCLUSÃO: MENU HAMBÚRGUER */
+        .menu-btn {
+            position: fixed; top: 40px; right: 40px; z-index: 1000;
+            cursor: pointer; background: none; border: none;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .menu-btn div { width: 30px; height: 2px; background-color: white; transition: 0.4s; }
+
+        .overlay {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.98); z-index: 999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+        }
+        .overlay.active { right: 0; }
+        .overlay a {
+            display: block; color: white; text-decoration: none;
+            font-size: 2rem; margin: 15px 0; font-weight: 300; 
+            letter-spacing: 4px; cursor: pointer;
+        }
+
+        /* INCLUSÃO: RODAPÉ COMPLETO */
+        footer {
+            position: fixed; bottom: 30px; width: 100%;
+            padding: 0 40px; display: flex;
+            justify-content: space-between; align-items: flex-end;
+            color: #ffffff; font-size: 0.65rem; z-index: 10;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .footer-left { text-align: left; line-height: 1.6; }
+        .footer-center { position: absolute; left: 50%; transform: translateX(-50%); text-align: center; }
+        .footer-right a { color: white; text-decoration: none; margin-left: 20px; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .content p { font-size: 0.8rem; letter-spacing: 4px; }
+            footer { flex-direction: column; align-items: center; text-align: center; gap: 10px; bottom: 15px; }
+            .footer-center { position: static; transform: none; }
+            .footer-right a { margin: 0 10px; }
+            .menu-btn { top: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+
     <div class="video-container">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline id="bgVideo">
             <source src="background.mp4" type="video/mp4">
         </video>
     </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        <div></div><div></div><div></div>
+    </button>
+
+    <nav class="overlay" id="menuOverlay">
+        <a onclick="toggleMenu()">VOLTAR</a>
+        <a href="#">INSTITUCIONAL</a>
+        <a href="#">DESENVOLVIMENTO</a>
+        <a href="#">CONTATO</a>
+        <a href="#">SUPORTE</a>
+    </nav>
 
     <div class="content">
         <h1>THE ORIZON</h1>
         <p>Inovação e Tecnologia em Escala</p>
     </div>
 
+    <footer>
+        <div class="footer-left">
+            <strong>THE ORIZON TECHNOLOGIES</strong> | CNPJ: 65.992.148/0001-03<br>
+            AV. GETÚLIO VARGAS, 671, SAVASSI, BELO HORIZONTE - MG
+        </div>
+        <div class="footer-center">
+            @2026 The Orizon Technologies
+        </div>
+        <div class="footer-right">
+            <a href="#">PRIVACIDADE</a>
+            <a href="#">ACESSIBILIDADE</a>
+            <a href="#">TERMOS</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            const lines = document.querySelectorAll('.menu-btn div');
+            if(menu.classList.contains('active')) {
+                lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                lines[1].style.opacity = '0';
+                lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
+            } else {
+                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
+            }
+        }
+
+        // Garante que o vídeo rode ao interagir (necessário para alguns navegadores)
+        window.onload = () => {
+            const video = document.getElementById('bgVideo');
+            video.play().catch(() => {
+                document.body.addEventListener('click', () => video.play(), { once: true });
+            });
+        }
+    </script>
 </body>
 </html>
