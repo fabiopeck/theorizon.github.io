@@ -4,220 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Orizon Technologies</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background-color: #000; color: white; }
+        body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; }
         
-        /* BACKGROUND VIDEO - NITIDEZ TOTAL */
+        /* Container do Vídeo: Prioridade máxima na nitidez */
         .video-container { 
             position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
             z-index: -1; 
-            background-color: #000;
         }
+        
         .video-container video { 
-            width: 100%; height: 100%; 
+            width: 100%; 
+            height: 100%; 
             object-fit: cover; 
-            object-position: center;
-            filter: none !important;
+            object-position: left center; /* Foco total na lateral esquerda */
         }
 
-        /* MENU OVERLAY ORIGINAL */
-        .menu-overlay {
-            position: fixed;
-            top: 0; right: -100%; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.98);
-            z-index: 999;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-            padding: 40px;
-        }
-        .menu-overlay.active { right: 0; }
-
-        .menu-links { text-align: center; }
-        .menu-links a {
-            display: block;
-            color: white; text-decoration: none;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            margin: 10px 0; font-weight: 300; letter-spacing: 4px;
-            transition: 0.3s; cursor: pointer;
+        /* Área de Texto: Apenas o texto flutuando sem filtros no fundo */
+        .content { 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px;
         }
 
-        /* SEÇÕES DENTRO DO MENU */
-        .section-content {
-            display: none;
-            max-width: 600px;
-            text-align: center;
-            margin-top: 30px;
-            animation: fadeIn 0.5s;
+        h1 { 
+            font-size: 6rem; 
+            color: #ffffff; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* Sombra leve para garantir leitura sem embaçar o vídeo */
+            letter-spacing: -2px;
         }
-        .section-content h2 { font-size: 1rem; letter-spacing: 5px; margin-bottom: 20px; color: #aaa; text-transform: uppercase; }
-        .section-content p { font-size: 0.9rem; line-height: 1.8; letter-spacing: 1px; }
-
-        /* COOKIE BANNER */
-        #cookie-banner {
-            position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 500px;
-            background: rgba(20, 20, 20, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 25px; border-radius: 20px;
-            z-index: 2000; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        
+        p { 
+            font-size: 1.5rem; 
+            color: #ffffff; 
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+            text-transform: uppercase; 
+            letter-spacing: 8px; 
         }
-        #cookie-banner.active { bottom: 30px; }
-
-        /* INTERFACE */
-        .menu-btn {
-            position: fixed; top: 40px; right: 40px; z-index: 1000;
-            cursor: pointer; background: none; border: none;
-            display: flex; flex-direction: column; gap: 6px;
-        }
-        .menu-btn div { width: 30px; height: 2px; background-color: white; transition: 0.4s; }
-
-        .content { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 1; }
-        h1 { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -2px; font-weight: 700; }
-        .tagline { font-size: clamp(0.7rem, 2.5vw, 1.5rem); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; margin-top: 10px; }
-
-        footer {
-            position: fixed; bottom: 30px; width: 100%;
-            padding: 0 40px; display: flex;
-            justify-content: space-between; align-items: flex-end;
-            color: rgba(255, 255, 255, 0.4); font-size: 0.6rem; z-index: 10;
-        }
-        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; }
-
-        /* POLÍTICAS (OVERLAYS SEPARADOS) */
-        .policy-overlay {
-            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px);
-            z-index: 1001; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; transition: 0.5s; padding: 40px;
-        }
-        .policy-overlay.active { right: 0; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>
-    </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
-
     <div class="video-container">
-        <video autoplay muted loop playsinline id="bgVideo">
+        <video autoplay muted loop playsinline>
             <source src="background.mp4" type="video/mp4">
         </video>
     </div>
 
-    <button class="menu-btn" onclick="toggleMenu()">
-        <div></div><div></div><div></div>
-    </button>
-
-    <nav class="menu-overlay" id="menuOverlay">
-        <div class="menu-links" id="mainMenu">
-            <a onclick="showSection('institutional')">INSTITUCIONAL</a>
-            <a onclick="showSection('development')">DESENVOLVIMENTO</a>
-            <a onclick="showSection('contact')">CONTATO</a>
-            <a onclick="showSection('support')">SUPORTE</a>
-        </div>
-
-        <div id="institutional" class="section-content">
-            <h2>INSTITUCIONAL</h2>
-            <p>The Orizon Technologies atua no desenvolvimento e implementação de infraestrutura tecnológica avançada.</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
-        </div>
-
-        <div id="development" class="section-content">
-            <h2>DESENVOLVIMENTO</h2>
-            <p>Engenharia de software e arquitetura de sistemas proprietários.</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
-        </div>
-
-        <div id="contact" class="section-content">
-            <h2>CONTATO</h2>
-            <p>E-MAIL: CONTATO@THEORIZON.COM.BR</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
-        </div>
-
-        <div id="support" class="section-content">
-            <h2>SUPORTE</h2>
-            <p>Canais de atendimento restritos para suporte técnico.</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
-        </div>
-    </nav>
-
-    <div class="policy-overlay" id="privacyOverlay">
-        <div class="section-content" style="display:block">
-            <h2>PRIVACIDADE</h2>
-            <p>Dados protegidos sob conformidade técnica.</p>
-            <a onclick="closePolicy('privacyOverlay')" style="cursor:pointer; border:1px solid white; padding:5px 15px; border-radius:20px; font-size:0.7rem">FECHAR</a>
-        </div>
-    </div>
-
     <div class="content">
         <h1>THE ORIZON</h1>
-        <p class="tagline">Inovação e Tecnologia em Escala</p>
+        <p>Inovação e Tecnologia em Escala</p>
     </div>
 
-    <div id="cookie-banner">
-        <p style="font-size: 0.8rem; margin-bottom: 15px;">Cookies essenciais ativos para performance.</p>
-        <button onclick="closeCookies()" style="background:white; color:black; border:none; padding:10px 20px; border-radius:10px; cursor:pointer; font-weight:bold">ACEITAR</button>
-    </div>
-
-    <footer>
-        <div class="footer-left">
-            <strong>THE ORIZON TECHNOLOGIES</strong> | SAVASSI, BH-MG
-        </div>
-        <div class="footer-right">
-            <a onclick="openPolicy('privacyOverlay')">PRIVACIDADE</a>
-            <a href="#">ACESSIBILIDADE</a>
-            <a href="#">TERMOS</a>
-        </div>
-    </footer>
-
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('menuOverlay');
-            menu.classList.toggle('active');
-            const lines = document.querySelectorAll('.menu-btn div');
-            if(menu.classList.contains('active')) {
-                lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
-                lines[1].style.opacity = '0';
-                lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
-            } else {
-                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
-                backToMenu();
-            }
-        }
-
-        function showSection(id) {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-        }
-
-        function backToMenu() {
-            document.getElementById('mainMenu').style.display = 'block';
-            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
-        }
-
-        function openPolicy(id) { document.getElementById(id).classList.add('active'); }
-        function closePolicy(id) { document.getElementById(id).classList.remove('active'); }
-        function closeCookies() { document.getElementById('cookie-banner').classList.remove('active'); }
-
-        window.onload = () => {
-            setTimeout(() => { document.getElementById('cookie-banner').classList.add('active'); }, 1000);
-            const video = document.getElementById('bgVideo');
-            video.play().catch(() => {
-                document.body.addEventListener('click', () => video.play(), { once: true });
-            });
-        }
-    </script>
 </body>
 </html>
