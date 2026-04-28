@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Orizon Technologies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background-color: #000; color: white; }
+        
+        /* BACKGROUND VIDEO */
+        .video-container { 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: -1; 
+        }
+        .video-container video { 
+            width: 100%; height: 100%; object-fit: cover; 
+            object-position: left center;
+        }
+
+        /* INTERFACE PRINCIPAL */
+        .content { 
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        h1 { font-size: clamp(3rem, 10vw, 6rem); text-shadow: 2px 2px 15px rgba(0,0,0,0.6); letter-spacing: -2px; font-weight: 700; text-align: center; }
+        .tagline { font-size: clamp(0.7rem, 2.5vw, 1rem); text-transform: uppercase; letter-spacing: 12px; font-weight: 300; margin-top: 10px; text-align: center; }
+
+        /* MENU BUTTON */
+        .menu-btn {
+            position: fixed;
+            top: 40px; right: 40px;
+            z-index: 1000;
+            cursor: pointer;
+            background: none; border: none;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .menu-btn div { width: 30px; height: 2px; background-color: white; transition: 0.4s; }
+
+        /* OVERLAYS (MENU, PRIVACIDADE, ACESSIBILIDADE, TERMOS) */
+        .overlay {
+            position: fixed;
+            top: 0; right: -100%; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 999;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+            padding: 40px;
+        }
+        .overlay.active { right: 0; }
+
+        /* CONTAINER DE TEXTO */
+        .text-container {
+            width: 100%;
+            max-width: 800px;
+            height: 70vh;
+            overflow-y: auto;
+            padding-right: 20px;
+            text-align: left;
+        }
+        .text-container::-webkit-scrollbar { width: 2px; }
+        .text-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+        .text-container::-webkit-scrollbar-thumb { background: white; }
+
+        .text-container h2 { font-size: 0.8rem; letter-spacing: 5px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
+        .text-container h3 { font-size: 1.2rem; font-weight: 700; margin: 40px 0 20px 0; letter-spacing: -0.5px; }
+        .text-container p { font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
+        
+        .close-btn {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-btn:hover { background: white; color: black; }
+
+        /* RODAPÉ */
+        footer {
+            position: fixed; bottom: 30px; width: 100%;
+            padding: 0 40px; display: flex;
+            justify-content: space-between; align-items: flex-end;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.6rem; letter-spacing: 1px; z-index: 10;
+        }
+        footer a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; transition: 0.3s; }
+        footer a:hover { color: white; }
+
+        @media (max-width: 768px) {
+            footer { flex-direction: column; align-items: center; text-align: center; gap: 10px; bottom: 20px; }
+            .menu-btn { top: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="background.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <button class="menu-btn" onclick="toggleOverlay('menuOverlay')">
+        <div></div><div></div><div></div>
+    </button>
+
+    <nav class="overlay" id="menuOverlay">
+        <div style="text-align: center;">
+            <a onclick="toggleOverlay('menuOverlay')" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px; cursor: pointer;">VOLTAR</a>
+            <a href="#" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px;">INSTITUCIONAL</a>
+            <a href="#" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px;">DESENVOLVIMENTO</a>
+        </div>
+    </nav>
+
+    <div class="overlay" id="privacyOverlay">
+        <div class="text-container">
+            <h2>Privacidade</h2>
+            <h3>DIRETRIZES DE DADOS</h3>
+            <p>A The Orizon Technologies opera sob protocolos rigorosos de governança digital. Limitamos a coleta de metadados ao estritamente necessário para a manutenção da infraestrutura de rede e segurança cibernética.</p>
+        </div>
+        <div class="close-btn" onclick="toggleOverlay('privacyOverlay')">FECHAR</div>
+    </div>
+
+    <div class="overlay" id="accessOverlay">
+        <div class="text-container">
+            <h2>Acessibilidade</h2>
+            <h3>COMPROMISSO DIGITAL</h3>
+            <p>Buscamos garantir que nossa vitrine digital seja acessível seguindo as diretrizes do WCAG. Focamos em navegação simplificada e contrastes otimizados para leitura clara.</p>
+        </div>
+        <div class="close-btn" onclick="toggleOverlay('accessOverlay')">FECHAR</div>
+    </div>
+
+    <div class="overlay" id="termsOverlay">
+        <div class="text-container">
+            <h2>Termos de Uso</h2>
+            <h3>1. NATUREZA DA PLATAFORMA</h3>
+            <p>Este website é uma vitrine institucional proprietária da The Orizon Technologies. O conteúdo aqui exposto tem caráter exclusivamente informativo sobre a identidade visual e o posicionamento tecnológico da marca.</p>
+            
+            <h3>2. PROPRIEDADE INTELECTUAL</h3>
+            <p>Todo o material contido nesta plataforma — incluindo códigos, logotipos, vídeos de fundo, textos e arquitetura de design — é propriedade intelectual protegida. A reprodução, cópia ou exploração comercial não autorizada é estritamente proibida.</p>
+
+            <h3>3. LIMITAÇÃO DE RESPONSABILIDADE</h3>
+            <p>A The Orizon Technologies não se responsabiliza por danos decorrentes do uso indevido das informações aqui contidas ou por instabilidades técnicas momentâneas no carregamento de ativos de mídia.</p>
+
+            <h3>4. JURISDIÇÃO</h3>
+            <p>Estes termos são regidos pelas leis da República Federativa do Brasil. Qualquer litígio será dirimido no foro da comarca de Belo Horizonte, MG.</p>
+        </div>
+        <div class="close-btn" onclick="toggleOverlay('termsOverlay')">FECHAR</div>
+    </div>
+
+    <div class="content">
+        <h1>THE ORIZON</h1>
+        <p class="tagline">Inovação e Tecnologia em Escala</p>
+    </div>
+
+    <footer>
+        <div class="footer-left">
+            <strong>THE ORIZON TECHNOLOGIES</strong> | CNPJ: 65.992.148/0001-03<br>
+            AV. GETÚLIO VARGAS, 671, SALA 500, SAVASSI, BH-MG
+        </div>
+        <div class="footer-right">
+            <a onclick="toggleOverlay('privacyOverlay')">PRIVACIDADE</a>
+            <a onclick="toggleOverlay('accessOverlay')">ACESSIBILIDADE</a>
+            <a onclick="toggleOverlay('termsOverlay')">TERMOS</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleOverlay(id) {
+            const overlay = document.getElementById(id);
+            overlay.classList.toggle('active');
+            
+            if(id === 'menuOverlay') {
+                const lines = document.querySelectorAll('.menu-btn div');
+                if(overlay.classList.contains('active')) {
+                    lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                    lines[1].style.opacity = '0';
+                    lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
+                } else {
+                    lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
