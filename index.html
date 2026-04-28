@@ -9,24 +9,38 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background-color: #000; color: white; }
         
-        /* BACKGROUND VIDEO */
+        /* BACKGROUND VIDEO - NITIDEZ MÁXIMA */
         .video-container { 
             position: fixed; 
             top: 0; left: 0; width: 100%; height: 100%; 
             z-index: -1; 
             background-color: #000;
+            overflow: hidden;
         }
+        
         .video-container video { 
-            width: 100%; height: 100%; object-fit: cover; 
-            object-position: left center;
+            width: 100%; height: 100%; 
+            object-fit: cover; /* Garante que preencha a tela sem distorcer */
+            object-position: center;
+            filter: none !important; /* Remove qualquer desfoque acidental */
+            -webkit-filter: blur(0px); /* Garante nitidez no Safari/iOS */
         }
 
-        /* OVERLAYS (MENU E POLÍTICAS) */
+        /* AJUSTE PARA MOBILE - Garante que o vídeo não fique "lavado" */
+        @media (max-width: 768px) {
+            .video-container video {
+                width: 100vw;
+                height: 100vh;
+            }
+        }
+
+        /* OVERLAYS (MENU E POLÍTICAS) - O BLUR SÓ ACONTECE AQUI QUANDO ABRE O MENU */
         .overlay {
             position: fixed;
             top: 0; right: -100%; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.85); /* Escurece um pouco para leitura */
+            backdrop-filter: blur(15px); /* O desfoque agora é só no vidro da frente */
+            -webkit-backdrop-filter: blur(15px);
             z-index: 999;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
@@ -43,7 +57,6 @@
         .text-container::-webkit-scrollbar-thumb { background: white; }
 
         .text-container h2 { font-size: 0.8rem; letter-spacing: 5px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
-        .text-container h3 { font-size: 1.2rem; font-weight: 700; margin: 40px 0 20px 0; }
         .text-container p { font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
 
         .close-btn {
@@ -59,20 +72,19 @@
             width: 90%; max-width: 500px;
             background: rgba(20, 20, 20, 0.95);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
             padding: 25px; border-radius: 20px;
             z-index: 2000; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
         #cookie-banner.active { bottom: 30px; }
-        #cookie-banner p { font-size: 0.8rem; line-height: 1.5; color: #ccc; margin-bottom: 20px; }
-        .cookie-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+        .cookie-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
         .cookie-btns button {
             flex: 1; padding: 12px; font-size: 0.7rem; letter-spacing: 1px;
             border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold;
         }
         .btn-accept { background: white; color: black; border: none; }
         .btn-refuse { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-config { background: transparent; color: #aaa; border: none; font-size: 0.6rem !important; }
 
         /* INTERFACE */
         .menu-btn {
@@ -87,19 +99,20 @@
             justify-content: center; align-items: center; padding: 20px;
             position: relative; z-index: 1;
         }
-        h1 { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -2px; font-weight: 700; }
-        .tagline { font-size: clamp(0.7rem, 2.5vw, 1.5rem); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; margin-top: 10px; }
+        h1 { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -2px; font-weight: 700; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .tagline { font-size: clamp(0.7rem, 2.5vw, 1.5rem); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; margin-top: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
         footer {
             position: fixed; bottom: 30px; width: 100%;
             padding: 0 40px; display: flex;
             justify-content: space-between; align-items: flex-end;
-            color: rgba(255, 255, 255, 0.4); font-size: 0.6rem; z-index: 10;
+            color: rgba(255, 255, 255, 0.6); font-size: 0.6rem; z-index: 10;
         }
-        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; }
+        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; transition: 0.3s; }
+        .footer-right a:hover { color: white; }
 
         @media (max-width: 768px) {
-            footer { flex-direction: column; align-items: center; gap: 10px; bottom: 20px; }
+            footer { flex-direction: column; align-items: center; gap: 10px; bottom: 20px; text-align: center; }
             .menu-btn { top: 20px; right: 20px; }
         }
     </style>
@@ -122,11 +135,10 @@
     </div>
 
     <div id="cookie-banner">
-        <p>Utilizamos cookies essenciais para garantir a melhor experiência técnica em nossa vitrine digital. Ao continuar, você concorda com nossas políticas.</p>
+        <p style="font-size: 0.8rem; color: #ccc;">Utilizamos cookies essenciais para garantir a melhor experiência técnica em nossa vitrine digital.</p>
         <div class="cookie-btns">
             <button class="btn-accept" onclick="closeCookies()">ACEITAR TUDO</button>
             <button class="btn-refuse" onclick="closeCookies()">RECUSAR</button>
-            <button class="btn-config" onclick="toggleOverlay('privacyOverlay')">CONFIGURAR COOKIES</button>
         </div>
     </div>
 
@@ -145,7 +157,7 @@
     <div class="overlay" id="privacyOverlay">
         <div class="text-container">
             <h2>Privacidade e Cookies</h2>
-            <p>A The Orizon Technologies utiliza apenas cookies técnicos necessários para a funcionalidade do site e segurança cibernética. Não comercializamos dados de navegação.</p>
+            <p>A The Orizon Technologies utiliza apenas cookies técnicos necessários para a funcionalidade e segurança cibernética.</p>
         </div>
         <div class="close-btn" onclick="toggleOverlay('privacyOverlay')">FECHAR</div>
     </div>
@@ -153,7 +165,7 @@
     <div class="overlay" id="accessOverlay">
         <div class="text-container">
             <h2>Acessibilidade</h2>
-            <p>Este site integra o VLibras e segue padrões WCAG de contraste e navegação para garantir acesso a todos os usuários.</p>
+            <p>Site compatível com VLibras e padrões WCAG de alto contraste.</p>
         </div>
         <div class="close-btn" onclick="toggleOverlay('accessOverlay')">FECHAR</div>
     </div>
@@ -161,7 +173,7 @@
     <div class="overlay" id="termsOverlay">
         <div class="text-container">
             <h2>Termos de Uso</h2>
-            <p>Todo conteúdo desta vitrine tecnológica é propriedade da The Orizon Technologies. O uso indevido de nossos ativos digitais é proibido.</p>
+            <p>Conteúdo proprietário da The Orizon Technologies. Reprodução proibida.</p>
         </div>
         <div class="close-btn" onclick="toggleOverlay('termsOverlay')">FECHAR</div>
     </div>
@@ -184,7 +196,6 @@
     </footer>
 
     <script>
-        // Toggle de qualquer overlay
         function toggleOverlay(id) {
             const overlay = document.getElementById(id);
             overlay.classList.toggle('active');
@@ -201,11 +212,17 @@
             }
         }
 
-        // Lógica dos Cookies
         window.onload = () => {
             setTimeout(() => {
                 document.getElementById('cookie-banner').classList.add('active');
             }, 1000);
+            
+            // Tenta forçar o play do vídeo no mobile
+            const video = document.getElementById('bgVideo');
+            video.play().catch(() => {
+                // Caso o navegador bloqueie autoplay, ele tentará ao primeiro clique
+                document.body.addEventListener('click', () => video.play(), { once: true });
+            });
         }
 
         function closeCookies() {
