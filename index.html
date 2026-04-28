@@ -9,134 +9,162 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background-color: #000; color: white; }
         
-        /* BLOCO DO VÍDEO EXATAMENTE COMO NO SEU PRIMEIRO CÓDIGO */
+        /* BACKGROUND VIDEO */
         .video-container { 
             position: fixed; 
             top: 0; left: 0; width: 100%; height: 100%; 
             z-index: -1; 
+            background-color: #000;
         }
-        
         .video-container video { 
             width: 100%; height: 100%; object-fit: cover; 
             object-position: left center;
         }
 
-        /* MENU */
-        .menu-btn {
-            position: fixed;
-            top: 40px; right: 40px;
-            z-index: 1000;
-            cursor: pointer;
-            background: none; border: none;
-            display: flex; flex-direction: column; gap: 6px;
-        }
-        .menu-btn div { width: 30px; height: 2px; background-color: white; transition: 0.4s; }
-
-        .menu-overlay {
+        /* OVERLAYS (MENU E POLÍTICAS) */
+        .overlay {
             position: fixed;
             top: 0; right: -100%; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.98);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
             z-index: 999;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
             padding: 40px;
         }
-        .menu-overlay.active { right: 0; }
+        .overlay.active { right: 0; }
 
-        .menu-links { text-align: center; }
-        .menu-links a {
-            display: block;
-            color: white; text-decoration: none;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            margin: 10px 0; font-weight: 300; letter-spacing: 4px;
-            transition: 0.3s; cursor: pointer;
+        .text-container {
+            width: 100%; max-width: 800px; height: 70vh;
+            overflow-y: auto; padding-right: 20px; text-align: left;
         }
+        .text-container::-webkit-scrollbar { width: 2px; }
+        .text-container::-webkit-scrollbar-thumb { background: white; }
 
-        .section-content {
-            display: none;
-            max-width: 600px;
-            text-align: center;
-            margin-top: 30px;
-            animation: fadeIn 0.5s;
+        .text-container h2 { font-size: 0.8rem; letter-spacing: 5px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
+        .text-container h3 { font-size: 1.2rem; font-weight: 700; margin: 40px 0 20px 0; }
+        .text-container p { font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
+
+        .close-btn {
+            margin-top: 30px; font-size: 0.7rem; letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.3); padding: 10px 25px;
+            border-radius: 30px; cursor: pointer; transition: 0.3s;
         }
-        .section-content h2 { font-size: 1rem; letter-spacing: 5px; margin-bottom: 20px; color: #aaa; text-transform: uppercase; }
-        .section-content p { font-size: 0.9rem; line-height: 1.8; letter-spacing: 1px; }
+        .close-btn:hover { background: white; color: black; }
 
-        /* MAIN CONTENT - Ajustado para mobile */
+        /* COOKIE BANNER */
+        #cookie-banner {
+            position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 500px;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px; border-radius: 20px;
+            z-index: 2000; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        #cookie-banner.active { bottom: 30px; }
+        #cookie-banner p { font-size: 0.8rem; line-height: 1.5; color: #ccc; margin-bottom: 20px; }
+        .cookie-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+        .cookie-btns button {
+            flex: 1; padding: 12px; font-size: 0.7rem; letter-spacing: 1px;
+            border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
+        .btn-accept { background: white; color: black; border: none; }
+        .btn-refuse { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-config { background: transparent; color: #aaa; border: none; font-size: 0.6rem !important; }
+
+        /* INTERFACE */
+        .menu-btn {
+            position: fixed; top: 40px; right: 40px; z-index: 1000;
+            cursor: pointer; background: none; border: none;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .menu-btn div { width: 30px; height: 2px; background-color: white; transition: 0.4s; }
+
         .content { 
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; padding: 20px;
+            position: relative; z-index: 1;
         }
-        h1 { font-size: clamp(3rem, 10vw, 6rem); text-shadow: 2px 2px 15px rgba(0,0,0,0.6); letter-spacing: -2px; font-weight: 700; text-align: center; }
-        .tagline { font-size: clamp(0.7rem, 2.5vw, 1rem); text-transform: uppercase; letter-spacing: clamp(4px, 2vw, 12px); font-weight: 300; margin-top: 10px; text-align: center; }
+        h1 { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -2px; font-weight: 700; }
+        .tagline { font-size: clamp(0.7rem, 2.5vw, 1.5rem); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; margin-top: 10px; }
 
-        /* RODAPÉ - Ajustado para mobile */
         footer {
             position: fixed; bottom: 30px; width: 100%;
             padding: 0 40px; display: flex;
             justify-content: space-between; align-items: flex-end;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.6rem; letter-spacing: 1px; z-index: 10;
+            color: rgba(255, 255, 255, 0.4); font-size: 0.6rem; z-index: 10;
         }
-        .footer-left { text-transform: uppercase; }
-        .footer-right { text-align: right; }
-        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; }
+        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Ajuste Mobile */
         @media (max-width: 768px) {
-            footer { flex-direction: column; align-items: center; text-align: center; gap: 10px; bottom: 20px; }
-            .footer-right { text-align: center; }
+            footer { flex-direction: column; align-items: center; gap: 10px; bottom: 20px; }
             .menu-btn { top: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+
     <div class="video-container">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline id="bgVideo">
             <source src="background.mp4" type="video/mp4">
         </video>
     </div>
 
-    <button class="menu-btn" onclick="toggleMenu()">
+    <div id="cookie-banner">
+        <p>Utilizamos cookies essenciais para garantir a melhor experiência técnica em nossa vitrine digital. Ao continuar, você concorda com nossas políticas.</p>
+        <div class="cookie-btns">
+            <button class="btn-accept" onclick="closeCookies()">ACEITAR TUDO</button>
+            <button class="btn-refuse" onclick="closeCookies()">RECUSAR</button>
+            <button class="btn-config" onclick="toggleOverlay('privacyOverlay')">CONFIGURAR COOKIES</button>
+        </div>
+    </div>
+
+    <button class="menu-btn" onclick="toggleOverlay('menuOverlay')">
         <div></div><div></div><div></div>
     </button>
 
-    <nav class="menu-overlay" id="menuOverlay">
-        <div class="menu-links" id="mainMenu">
-            <a onclick="showSection('institutional')">INSTITUCIONAL</a>
-            <a onclick="showSection('development')">DESENVOLVIMENTO</a>
-            <a onclick="showSection('contact')">CONTATO</a>
-            <a onclick="showSection('support')">SUPORTE</a>
-        </div>
-
-        <div id="institutional" class="section-content">
-            <h2>INSTITUCIONAL</h2>
-            <p>The Orizon Technologies atua no desenvolvimento e implementação de infraestrutura tecnológica avançada, focada em eficiência e escalabilidade digital.</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
-        </div>
-
-        <div id="development" class="section-content">
-            <h2>DESENVOLVIMENTO</h2>
-            <p>Engenharia de software e arquitetura de sistemas proprietários voltados para otimização de processos e inovação tecnológica.</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
-        </div>
-
-        <div id="contact" class="section-content">
-            <h2>CONTATO</h2>
-            <p>E-MAIL: CONTATO@THEORIZON.COM.BR<br>BELO HORIZONTE | MG</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
-        </div>
-
-        <div id="support" class="section-content">
-            <h2>SUPORTE</h2>
-            <p>Canais de atendimento restritos para suporte técnico e conformidade de dados.</p>
-            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
+    <nav class="overlay" id="menuOverlay">
+        <div style="text-align: center;">
+            <a onclick="toggleOverlay('menuOverlay')" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px; cursor: pointer;">VOLTAR</a>
+            <a href="#" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px;">INSTITUCIONAL</a>
+            <a href="#" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px;">DESENVOLVIMENTO</a>
         </div>
     </nav>
+
+    <div class="overlay" id="privacyOverlay">
+        <div class="text-container">
+            <h2>Privacidade e Cookies</h2>
+            <p>A The Orizon Technologies utiliza apenas cookies técnicos necessários para a funcionalidade do site e segurança cibernética. Não comercializamos dados de navegação.</p>
+        </div>
+        <div class="close-btn" onclick="toggleOverlay('privacyOverlay')">FECHAR</div>
+    </div>
+
+    <div class="overlay" id="accessOverlay">
+        <div class="text-container">
+            <h2>Acessibilidade</h2>
+            <p>Este site integra o VLibras e segue padrões WCAG de contraste e navegação para garantir acesso a todos os usuários.</p>
+        </div>
+        <div class="close-btn" onclick="toggleOverlay('accessOverlay')">FECHAR</div>
+    </div>
+
+    <div class="overlay" id="termsOverlay">
+        <div class="text-container">
+            <h2>Termos de Uso</h2>
+            <p>Todo conteúdo desta vitrine tecnológica é propriedade da The Orizon Technologies. O uso indevido de nossos ativos digitais é proibido.</p>
+        </div>
+        <div class="close-btn" onclick="toggleOverlay('termsOverlay')">FECHAR</div>
+    </div>
 
     <div class="content">
         <h1>THE ORIZON</h1>
@@ -145,41 +173,43 @@
 
     <footer>
         <div class="footer-left">
-            <strong>THE ORIZON</strong> | CNPJ: 65.992.148/0001-03<br>
-            AV. GETÚLIO VARGAS, 671, SALA 500, SAVASSI, BH-MG
+            <strong>THE ORIZON TECHNOLOGIES</strong> | CNPJ: 65.992.148/0001-03<br>
+            AV. GETÚLIO VARGAS, 671, SAVASSI, BH-MG
         </div>
-        <p style="margin-top: 5px;">© 2026 THE ORIZON TECHNOLOGIES</p>
         <div class="footer-right">
-            <a href="privacidade.html">PRIVACIDADE</a>
-            <a href="acessibilidade.html">ACESSIBILIDADE</a>
-            <a href="termos.html">TERMOS</a>
+            <a onclick="toggleOverlay('privacyOverlay')">PRIVACIDADE</a>
+            <a onclick="toggleOverlay('accessOverlay')">ACESSIBILIDADE</a>
+            <a onclick="toggleOverlay('termsOverlay')">TERMOS</a>
         </div>
     </footer>
 
     <script>
-        function toggleMenu() {
-            const menu = document.getElementById('menuOverlay');
-            menu.classList.toggle('active');
-            const lines = document.querySelectorAll('.menu-btn div');
-            if(menu.classList.contains('active')) {
-                lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
-                lines[1].style.opacity = '0';
-                lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
-            } else {
-                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
-                backToMenu();
+        // Toggle de qualquer overlay
+        function toggleOverlay(id) {
+            const overlay = document.getElementById(id);
+            overlay.classList.toggle('active');
+            
+            if(id === 'menuOverlay') {
+                const lines = document.querySelectorAll('.menu-btn div');
+                if(overlay.classList.contains('active')) {
+                    lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                    lines[1].style.opacity = '0';
+                    lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
+                } else {
+                    lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
+                }
             }
         }
 
-        function showSection(id) {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
+        // Lógica dos Cookies
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('cookie-banner').classList.add('active');
+            }, 1000);
         }
 
-        function backToMenu() {
-            document.getElementById('mainMenu').style.display = 'block';
-            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
+        function closeCookies() {
+            document.getElementById('cookie-banner').classList.remove('active');
         }
     </script>
 </body>
