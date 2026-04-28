@@ -9,62 +9,52 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background-color: #000; color: white; }
         
-        /* BACKGROUND VIDEO - NITIDEZ MÁXIMA */
+        /* BACKGROUND VIDEO - NITIDEZ TOTAL */
         .video-container { 
             position: fixed; 
             top: 0; left: 0; width: 100%; height: 100%; 
             z-index: -1; 
             background-color: #000;
-            overflow: hidden;
         }
-        
         .video-container video { 
             width: 100%; height: 100%; 
-            object-fit: cover; /* Garante que preencha a tela sem distorcer */
+            object-fit: cover; 
             object-position: center;
-            filter: none !important; /* Remove qualquer desfoque acidental */
-            -webkit-filter: blur(0px); /* Garante nitidez no Safari/iOS */
+            filter: none !important;
         }
 
-        /* AJUSTE PARA MOBILE - Garante que o vídeo não fique "lavado" */
-        @media (max-width: 768px) {
-            .video-container video {
-                width: 100vw;
-                height: 100vh;
-            }
-        }
-
-        /* OVERLAYS (MENU E POLÍTICAS) - O BLUR SÓ ACONTECE AQUI QUANDO ABRE O MENU */
-        .overlay {
+        /* MENU OVERLAY ORIGINAL */
+        .menu-overlay {
             position: fixed;
             top: 0; right: -100%; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); /* Escurece um pouco para leitura */
-            backdrop-filter: blur(15px); /* O desfoque agora é só no vidro da frente */
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.98);
             z-index: 999;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
             padding: 40px;
         }
-        .overlay.active { right: 0; }
+        .menu-overlay.active { right: 0; }
 
-        .text-container {
-            width: 100%; max-width: 800px; height: 70vh;
-            overflow-y: auto; padding-right: 20px; text-align: left;
+        .menu-links { text-align: center; }
+        .menu-links a {
+            display: block;
+            color: white; text-decoration: none;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin: 10px 0; font-weight: 300; letter-spacing: 4px;
+            transition: 0.3s; cursor: pointer;
         }
-        .text-container::-webkit-scrollbar { width: 2px; }
-        .text-container::-webkit-scrollbar-thumb { background: white; }
 
-        .text-container h2 { font-size: 0.8rem; letter-spacing: 5px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
-        .text-container p { font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
-
-        .close-btn {
-            margin-top: 30px; font-size: 0.7rem; letter-spacing: 2px;
-            border: 1px solid rgba(255,255,255,0.3); padding: 10px 25px;
-            border-radius: 30px; cursor: pointer; transition: 0.3s;
+        /* SEÇÕES DENTRO DO MENU */
+        .section-content {
+            display: none;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 30px;
+            animation: fadeIn 0.5s;
         }
-        .close-btn:hover { background: white; color: black; }
+        .section-content h2 { font-size: 1rem; letter-spacing: 5px; margin-bottom: 20px; color: #aaa; text-transform: uppercase; }
+        .section-content p { font-size: 0.9rem; line-height: 1.8; letter-spacing: 1px; }
 
         /* COOKIE BANNER */
         #cookie-banner {
@@ -72,19 +62,11 @@
             width: 90%; max-width: 500px;
             background: rgba(20, 20, 20, 0.95);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
             padding: 25px; border-radius: 20px;
             z-index: 2000; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
         #cookie-banner.active { bottom: 30px; }
-        .cookie-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
-        .cookie-btns button {
-            flex: 1; padding: 12px; font-size: 0.7rem; letter-spacing: 1px;
-            border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold;
-        }
-        .btn-accept { background: white; color: black; border: none; }
-        .btn-refuse { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); }
 
         /* INTERFACE */
         .menu-btn {
@@ -94,36 +76,35 @@
         }
         .menu-btn div { width: 30px; height: 2px; background-color: white; transition: 0.4s; }
 
-        .content { 
-            height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; padding: 20px;
-            position: relative; z-index: 1;
-        }
-        h1 { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -2px; font-weight: 700; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        .tagline { font-size: clamp(0.7rem, 2.5vw, 1.5rem); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; margin-top: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .content { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 1; }
+        h1 { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -2px; font-weight: 700; }
+        .tagline { font-size: clamp(0.7rem, 2.5vw, 1.5rem); text-transform: uppercase; letter-spacing: 8px; font-weight: 300; margin-top: 10px; }
 
         footer {
             position: fixed; bottom: 30px; width: 100%;
             padding: 0 40px; display: flex;
             justify-content: space-between; align-items: flex-end;
-            color: rgba(255, 255, 255, 0.6); font-size: 0.6rem; z-index: 10;
+            color: rgba(255, 255, 255, 0.4); font-size: 0.6rem; z-index: 10;
         }
-        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; transition: 0.3s; }
-        .footer-right a:hover { color: white; }
+        .footer-right a { color: inherit; text-decoration: none; margin-left: 15px; cursor: pointer; }
 
-        @media (max-width: 768px) {
-            footer { flex-direction: column; align-items: center; gap: 10px; bottom: 20px; text-align: center; }
-            .menu-btn { top: 20px; right: 20px; }
+        /* POLÍTICAS (OVERLAYS SEPARADOS) */
+        .policy-overlay {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px);
+            z-index: 1001; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; transition: 0.5s; padding: 40px;
         }
+        .policy-overlay.active { right: 0; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
+        <div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
@@ -134,48 +115,49 @@
         </video>
     </div>
 
-    <div id="cookie-banner">
-        <p style="font-size: 0.8rem; color: #ccc;">Utilizamos cookies essenciais para garantir a melhor experiência técnica em nossa vitrine digital.</p>
-        <div class="cookie-btns">
-            <button class="btn-accept" onclick="closeCookies()">ACEITAR TUDO</button>
-            <button class="btn-refuse" onclick="closeCookies()">RECUSAR</button>
-        </div>
-    </div>
-
-    <button class="menu-btn" onclick="toggleOverlay('menuOverlay')">
+    <button class="menu-btn" onclick="toggleMenu()">
         <div></div><div></div><div></div>
     </button>
 
-    <nav class="overlay" id="menuOverlay">
-        <div style="text-align: center;">
-            <a onclick="toggleOverlay('menuOverlay')" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px; cursor: pointer;">VOLTAR</a>
-            <a href="#" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px;">INSTITUCIONAL</a>
-            <a href="#" style="display: block; color: white; text-decoration: none; font-size: 2rem; margin: 20px 0; font-weight: 300; letter-spacing: 4px;">DESENVOLVIMENTO</a>
+    <nav class="menu-overlay" id="menuOverlay">
+        <div class="menu-links" id="mainMenu">
+            <a onclick="showSection('institutional')">INSTITUCIONAL</a>
+            <a onclick="showSection('development')">DESENVOLVIMENTO</a>
+            <a onclick="showSection('contact')">CONTATO</a>
+            <a onclick="showSection('support')">SUPORTE</a>
+        </div>
+
+        <div id="institutional" class="section-content">
+            <h2>INSTITUCIONAL</h2>
+            <p>The Orizon Technologies atua no desenvolvimento e implementação de infraestrutura tecnológica avançada.</p>
+            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
+        </div>
+
+        <div id="development" class="section-content">
+            <h2>DESENVOLVIMENTO</h2>
+            <p>Engenharia de software e arquitetura de sistemas proprietários.</p>
+            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
+        </div>
+
+        <div id="contact" class="section-content">
+            <h2>CONTATO</h2>
+            <p>E-MAIL: CONTATO@THEORIZON.COM.BR</p>
+            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
+        </div>
+
+        <div id="support" class="section-content">
+            <h2>SUPORTE</h2>
+            <p>Canais de atendimento restritos para suporte técnico.</p>
+            <a onclick="backToMenu()" style="display:inline-block; font-size: 0.7rem; margin-top: 20px; border: 1px solid white; padding: 5px 15px; border-radius: 20px; cursor:pointer;">VOLTAR</a>
         </div>
     </nav>
 
-    <div class="overlay" id="privacyOverlay">
-        <div class="text-container">
-            <h2>Privacidade e Cookies</h2>
-            <p>A The Orizon Technologies utiliza apenas cookies técnicos necessários para a funcionalidade e segurança cibernética.</p>
+    <div class="policy-overlay" id="privacyOverlay">
+        <div class="section-content" style="display:block">
+            <h2>PRIVACIDADE</h2>
+            <p>Dados protegidos sob conformidade técnica.</p>
+            <a onclick="closePolicy('privacyOverlay')" style="cursor:pointer; border:1px solid white; padding:5px 15px; border-radius:20px; font-size:0.7rem">FECHAR</a>
         </div>
-        <div class="close-btn" onclick="toggleOverlay('privacyOverlay')">FECHAR</div>
-    </div>
-
-    <div class="overlay" id="accessOverlay">
-        <div class="text-container">
-            <h2>Acessibilidade</h2>
-            <p>Site compatível com VLibras e padrões WCAG de alto contraste.</p>
-        </div>
-        <div class="close-btn" onclick="toggleOverlay('accessOverlay')">FECHAR</div>
-    </div>
-
-    <div class="overlay" id="termsOverlay">
-        <div class="text-container">
-            <h2>Termos de Uso</h2>
-            <p>Conteúdo proprietário da The Orizon Technologies. Reprodução proibida.</p>
-        </div>
-        <div class="close-btn" onclick="toggleOverlay('termsOverlay')">FECHAR</div>
     </div>
 
     <div class="content">
@@ -183,50 +165,58 @@
         <p class="tagline">Inovação e Tecnologia em Escala</p>
     </div>
 
+    <div id="cookie-banner">
+        <p style="font-size: 0.8rem; margin-bottom: 15px;">Cookies essenciais ativos para performance.</p>
+        <button onclick="closeCookies()" style="background:white; color:black; border:none; padding:10px 20px; border-radius:10px; cursor:pointer; font-weight:bold">ACEITAR</button>
+    </div>
+
     <footer>
         <div class="footer-left">
-            <strong>THE ORIZON TECHNOLOGIES</strong> | CNPJ: 65.992.148/0001-03<br>
-            AV. GETÚLIO VARGAS, 671, SAVASSI, BH-MG
+            <strong>THE ORIZON TECHNOLOGIES</strong> | SAVASSI, BH-MG
         </div>
         <div class="footer-right">
-            <a onclick="toggleOverlay('privacyOverlay')">PRIVACIDADE</a>
-            <a onclick="toggleOverlay('accessOverlay')">ACESSIBILIDADE</a>
-            <a onclick="toggleOverlay('termsOverlay')">TERMOS</a>
+            <a onclick="openPolicy('privacyOverlay')">PRIVACIDADE</a>
+            <a href="#">ACESSIBILIDADE</a>
+            <a href="#">TERMOS</a>
         </div>
     </footer>
 
     <script>
-        function toggleOverlay(id) {
-            const overlay = document.getElementById(id);
-            overlay.classList.toggle('active');
-            
-            if(id === 'menuOverlay') {
-                const lines = document.querySelectorAll('.menu-btn div');
-                if(overlay.classList.contains('active')) {
-                    lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
-                    lines[1].style.opacity = '0';
-                    lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
-                } else {
-                    lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
-                }
+        function toggleMenu() {
+            const menu = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            const lines = document.querySelectorAll('.menu-btn div');
+            if(menu.classList.contains('active')) {
+                lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                lines[1].style.opacity = '0';
+                lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
+            } else {
+                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
+                backToMenu();
             }
         }
 
-        window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('cookie-banner').classList.add('active');
-            }, 1000);
-            
-            // Tenta forçar o play do vídeo no mobile
-            const video = document.getElementById('bgVideo');
-            video.play().catch(() => {
-                // Caso o navegador bloqueie autoplay, ele tentará ao primeiro clique
-                document.body.addEventListener('click', () => video.play(), { once: true });
-            });
+        function showSection(id) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
         }
 
-        function closeCookies() {
-            document.getElementById('cookie-banner').classList.remove('active');
+        function backToMenu() {
+            document.getElementById('mainMenu').style.display = 'block';
+            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
+        }
+
+        function openPolicy(id) { document.getElementById(id).classList.add('active'); }
+        function closePolicy(id) { document.getElementById(id).classList.remove('active'); }
+        function closeCookies() { document.getElementById('cookie-banner').classList.remove('active'); }
+
+        window.onload = () => {
+            setTimeout(() => { document.getElementById('cookie-banner').classList.add('active'); }, 1000);
+            const video = document.getElementById('bgVideo');
+            video.play().catch(() => {
+                document.body.addEventListener('click', () => video.play(), { once: true });
+            });
         }
     </script>
 </body>
