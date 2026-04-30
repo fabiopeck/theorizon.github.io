@@ -2,21 +2,33 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Privacidade | THE ORIZON</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="notranslate">Privacidade | THE ORIZON</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000; color: #fff; }</style>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000; color: #fff; min-height: 100vh; display: flex; flex-col; }
+        .glass-ui { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
 </head>
-<body class="p-10">
-    <div class="max-w-4xl mx-auto border border-white/10 p-12 rounded-3xl bg-white/5 backdrop-blur-xl">
-        <h1 class="text-3xl font-black mb-8 uppercase tracking-tighter">Política de Privacidade</h1>
-        <div class="space-y-6 text-white/60 text-sm leading-relaxed uppercase tracking-widest">
-            <p>A <strong>THE ORIZON TECHNOLOGIES</strong> compromete-se com a proteção de dados e privacidade dos usuários, em conformidade com a LGPD.</p>
-            <p>1. Coleta de Dados: Coletamos apenas informações essenciais para a infraestrutura de ecossistemas digitais próprios.</p>
-            <p>2. Finalidade: O uso de dados é restrito à otimização de performance e segurança das nossas plataformas.</p>
-            <p>3. Direitos: O titular pode solicitar a exclusão de seus dados a qualquer momento via nossos canais oficiais de Belo Horizonte.</p>
+<body class="flex flex-col">
+    <main class="flex-grow p-10 flex items-center justify-center">
+        <div class="max-w-4xl w-full glass-ui p-12 rounded-3xl">
+            <h1 class="text-3xl font-black mb-8 uppercase tracking-tighter">Política de Privacidade</h1>
+            <div class="space-y-6 text-white/60 text-sm leading-relaxed uppercase tracking-widest">
+                <p>A <strong>THE ORIZON TECHNOLOGIES</strong> protege seus dados em conformidade com a LGPD.</p>
+                <p>O tratamento de informações é restrito à segurança de nossa infraestrutura digital própria.</p>
+            </div>
+            <a href="index.html" class="mt-12 inline-block border border-white/20 px-8 py-3 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-black transition uppercase">Início</a>
         </div>
-        <a href="index.php" class="mt-12 inline-block border border-white/20 px-8 py-3 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-black transition">VOLTAR</a>
-    </div>
+    </main>
+
+    <footer class="w-full py-10 px-10 border-t border-white/10 glass-ui">
+        <div class="max-w-7xl mx-auto flex justify-center gap-10">
+            <a href="privacidade.html" class="text-white text-[10px] font-bold tracking-[2px] uppercase">Privacidade</a>
+            <a href="acessibilidade.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white uppercase">Acessibilidade</a>
+            <a href="termos.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white uppercase">Termos</a>
+        </div>
+    </footer>
 </body>
 </html>
