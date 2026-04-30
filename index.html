@@ -12,7 +12,199 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
         
+        .carousel-item { transition: opacity 1.5s ease-in-out; }<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title class="notranslate">THE ORIZON | Platform Infrastructure & Digital Ecosystems</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; margin: 0; }
+        
+        .glass-header {
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .notranslate { translate: no !important; }
+
         .carousel-item { transition: opacity 1.5s ease-in-out; }
+        .carousel-item img { filter: contrast(1.05) brightness(0.65); }
+
+        .glass-overlay {
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .responsive-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 0.9;
+        }
+
+        #mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #mobile-menu.active { transform: translateX(0); }
+        
+        #menu-overlay {
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        #menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .menu-link {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .menu-link:hover { color: #fff; padding-left: 8px; border-bottom: 1px solid #fff; }
+
+        .login-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-link:hover { background: #fff; color: #000; border-color: #fff; }
+
+        footer a { transition: color 0.3s ease; }
+        footer a:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+
+    <div id="menu-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] opacity-0"></div>
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 glass-header">
+        <div class="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
+            
+            <div class="flex items-center">
+                <span class="text-white font-black tracking-tighter text-xl notranslate">THE ORIZON</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="login.php" class="login-link">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span>Acesso</span>
+                </a>
+                
+                <button onclick="toggleMenu()" class="flex flex-col gap-1.5 p-2.5 bg-white/5 rounded-full hover:bg-white/15 transition group">
+                    <div class="w-5 h-0.5 bg-white"></div>
+                    <div class="w-5 h-0.5 bg-white"></div>
+                    <div class="w-3 h-0.5 bg-white group-hover:w-5 transition-all"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-80 bg-black z-[60] shadow-2xl p-10 flex flex-col border-l border-white/5">
+        <button onclick="toggleMenu()" class="self-end text-white/30 hover:text-white uppercase text-[10px] font-black tracking-[0.2em] mb-16">Fechar ✕</button>
+        <nav class="flex flex-col gap-8 text-left">
+            <a href="#" class="menu-link">Governança</a>
+            <a href="#" class="menu-link">Tecnologia</a>
+            <a href="#" class="menu-link">Ecossistema</a>
+            <a href="#" class="menu-link">LGPD</a>
+            <a href="#" class="menu-link">Contatos</a>
+        </nav>
+        <div class="mt-auto text-center">
+            <p class="text-[9px] text-white/10 uppercase tracking-[5px] font-bold notranslate">THE ORIZON v2.0</p>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen w-full overflow-hidden bg-black">
+        <div class="carousel-item absolute inset-0 opacity-100">
+            <img src="https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?q=80&w=2000" class="w-full h-full object-cover" alt="Banner 1">
+        </div>
+        
+        <div class="absolute inset-0 glass-overlay z-10 flex flex-col justify-center items-center text-center px-6">
+            <span class="text-white/40 font-bold tracking-[10px] uppercase text-[10px] mb-8">Platform Infrastructure & Digital Ecosystems</span>
+            <h1 class="responsive-title font-extrabold uppercase mb-12 text-white leading-none tracking-tighter notranslate">
+                THE ORIZON <br>
+                <span class="text-white/20 font-light">TECHNOLOGIES</span>
+            </h1>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="border border-white/20 text-white px-8 py-3 rounded-full font-bold uppercase text-[9px] tracking-[2px] hover:bg-white hover:text-black transition-all duration-500">Explorar</a>
+                <a href="#" class="bg-white text-black px-8 py-3 rounded-full font-bold uppercase text-[9px] tracking-[2px] hover:bg-gray-200 transition-all duration-500">Contato</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé Corrigido -->
+    <footer class="bg-[#0a0a0a] border-t border-white/5 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <!-- Lado Esquerdo: Endereço -->
+            <div class="text-left space-y-2">
+                <p class="text-white font-bold text-[11px] tracking-widest uppercase notranslate">The Orizon Technologies</p>
+                <p class="text-white/40 text-[10px] leading-relaxed uppercase tracking-wider">
+                    CNPJ: 65.992.148/0001-03<br>
+                    AV. Getúlio Vargas, 671, Sala 500, Savassi, BH-MG
+                </p>
+                <p class="text-white/20 text-[9px] pt-2">© 2026 Todos os direitos reservados.</p>
+            </div>
+
+            <!-- Lado Direito: Links -->
+            <div class="flex gap-8">
+                <a href="#" class="text-white/40 text-[10px] font-bold tracking-widest hover:text-white uppercase">Privacidade</a>
+                <a href="#" class="text-white/40 text-[10px] font-bold tracking-widest hover:text-white uppercase">Acessibilidade</a>
+                <a href="#" class="text-white/40 text-[10px] font-bold tracking-widest hover:text-white uppercase">Termos</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+            document.getElementById('menu-overlay').classList.toggle('active');
+        }
+
+        // Carrossel Simples
+        let currentItem = 0;
+        const items = document.querySelectorAll('.carousel-item');
+        function nextItem() {
+            items[currentItem].style.opacity = 0;
+            currentItem = (currentItem + 1) % items.length;
+            items[currentItem].style.opacity = 1;
+        }
+        setInterval(nextItem, 5000);
+    </script>
+</body>
+</html>
         .carousel-item img { filter: contrast(1.05) brightness(0.85); }
 
         .glass-header {
@@ -192,9 +384,9 @@
         </div>
         <p style="margin-top: 5px;">© 2026 THE ORIZON TECHNOLOGIES</p>
         <div class="footer-right">
-            <a href="#">PRIVACIDADE</a>
-            <a href="#">ACESSIBILIDADE</a>
-            <a href="#">TERMOS</a>
+            <a href="privacidade.html">PRIVACIDADE</a>
+            <a href="acessibilidade.html">ACESSIBILIDADE</a>
+            <a href="termos.html">TERMOS</a>
         </div>
     </footer>
 
