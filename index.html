@@ -9,37 +9,67 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #000; color: #fff; margin: 0; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #000; 
+            color: #fff; 
+            margin: 0; 
+            min-height: 100vh;
+        }
         
+        /* Imagem de Fundo com Overlay */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: -1;
+        }
+
         /* Vidro Ultra Limpo (Translúcido) */
         .glass-ui {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .notranslate { translate: no !important; }
 
-        /* Gradiente Suave de Fundo */
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1) 0%, rgba(0, 0, 0, 1) 100%);
-        }
-
         .responsive-title {
             font-size: clamp(2.5rem, 10vw, 6rem);
             line-height: 0.85;
             letter-spacing: -0.04em;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
     </style>
 </head>
-<body class="hero-gradient min-h-screen flex flex-col">
+<body class="flex flex-col">
+
+    <!-- Background Layers -->
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
 
     <!-- Header Simples -->
     <header class="fixed w-full top-0 z-50 py-6 px-10">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            
+            <span class="text-xl font-black tracking-tighter notranslate">THE ORIZON</span>
             <div class="glass-ui px-6 py-2 rounded-full">
-                <span class="text-[10px] font-bold tracking-[3px] uppercase opacity-50">Private Production Only</span>
+                <span class="text-[10px] font-bold tracking-[3px] uppercase opacity-60">Private Production Only</span>
             </div>
         </div>
     </header>
@@ -47,45 +77,45 @@
     <!-- Main Content (Vitrine) -->
     <main class="flex-grow flex flex-col justify-center items-center px-6 pt-20">
         <div class="text-center">
-            <span class="text-blue-500 font-bold tracking-[8px] uppercase text-[10px] mb-6 block">Digital Ecosystems</span>
+            <span class="text-blue-400 font-bold tracking-[8px] uppercase text-[10px] mb-6 block">Digital Ecosystems</span>
             <h1 class="responsive-title font-extrabold uppercase notranslate mb-8">
                 THE ORIZON<br>
-                <span class="opacity-20 font-light">TECHNOLOGIES</span>
+                <span class="opacity-30 font-light">TECHNOLOGIES</span>
             </h1>
-            <p class="max-w-xl mx-auto text-white/40 text-sm leading-relaxed uppercase tracking-widest font-medium">
+            <p class="max-w-xl mx-auto text-white/50 text-sm leading-relaxed uppercase tracking-widest font-medium">
                 Infraestrutura tecnológica de alta performance para ativos digitais próprios.
             </p>
         </div>
     </main>
 
     <!-- Rodapé Institucional (O que a Apple audita) -->
-    <footer class="w-full py-12 px-10 border-t border-white/5">
+    <footer class="w-full py-12 px-10 border-t border-white/10 glass-ui mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-10">
             
             <!-- Esquerda: Dados Oficiais -->
-            <div class="space-y-4">
+            <div class="space-y-4 text-left">
                 <div class="space-y-1">
                     <p class="text-white font-bold text-[12px] tracking-tight notranslate">THE ORIZON TECHNOLOGIES</p>
-                    <p class="text-white/30 text-[10px] uppercase tracking-wider leading-relaxed">
+                    <p class="text-white/40 text-[10px] uppercase tracking-wider leading-relaxed">
                         CNPJ: 65.992.148/0001-03<br>
                         AV. Getúlio Vargas, 671, Sala 500, Savassi<br>
                         Belo Horizonte, MG - Brasil
                     </p>
                 </div>
-                <p class="text-white/10 text-[9px]">© 2026 Todos os direitos reservados.</p>
+                <p class="text-white/20 text-[9px]">© 2026 Todos os direitos reservados.</p>
             </div>
 
-            <!-- Direita: Links Obrigatórios de Navegação -->
+            <!-- Direita: Links Obrigatórios (Apontando para .html) -->
             <div class="flex flex-wrap gap-6 md:gap-10">
-                <a href="privacidade.php" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Privacidade</a>
-                <a href="acessibilidade.php" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Acessibilidade</a>
-                <a href="termos.php" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Termos</a>
+                <a href="privacidade.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Privacidade</a>
+                <a href="acessibilidade.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Acessibilidade</a>
+                <a href="termos.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Termos</a>
             </div>
 
         </div>
     </footer>
 
-    <!-- VLibras Widget (Essencial para Acessibilidade Brasil) -->
+    <!-- VLibras Widget -->
     <div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
