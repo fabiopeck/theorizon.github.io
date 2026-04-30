@@ -12,13 +12,19 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; margin: 0; }
         
-        /* Cabeçalho Glassmorphism Cristalino */
+        /* Cabeçalho Glassmorphism */
         .glass-header {
-            background: rgba(0, 0, 0, 0.05); /* Fundo quase inexistente para transparência total */
-            backdrop-filter: blur(2px); /* Efeito de vidro sutil, sem embaçar a imagem */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha suave e discreta */
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.4s ease;
         }
+
+        /* Esconde elementos do Tradutor para manter o design limpo */
+        .skiptranslate, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame {
+            display: none !important;
+        }
+        body { top: 0 !important; }
 
         .carousel-item { transition: opacity 1.5s ease-in-out; }
         .carousel-item img { filter: contrast(1.05) brightness(0.65); }
@@ -64,10 +70,10 @@
             align-items: center;
             gap: 8px;
             color: white;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             transition: all 0.4s ease;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             background: rgba(255, 255, 255, 0.03);
@@ -78,7 +84,7 @@
 
         @media (max-width: 640px) {
             .login-link span { display: none; }
-            header { height: 70px !important; }
+            header { height: 80px !important; }
         }
     </style>
 </head>
@@ -88,17 +94,38 @@
 
     <!-- Header -->
     <header class="fixed w-full top-0 z-50 glass-header">
-        <div class="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-end">
-            <div class="flex items-center gap-4">
-                <a href="login.php" class="login-link">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    <span>Login</span>
+        <div class="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
+            
+            <!-- Lado Esquerdo: Acessibilidade -->
+            <div class="flex items-center">
+                <a href="#" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[2px] text-white/40 hover:text-white transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    <span class="hidden sm:inline">Acessibilidade</span>
                 </a>
-                <button onclick="toggleMenu()" class="flex flex-col gap-1.5 p-2.5 bg-white/5 rounded-full hover:bg-white/15 transition group">
-                    <div class="w-6 h-0.5 bg-white"></div>
-                    <div class="w-6 h-0.5 bg-white"></div>
-                    <div class="w-4 h-0.5 bg-white group-hover:w-6 transition-all"></div>
-                </button>
+            </div>
+
+            <!-- Lado Direito: Idioma, Login e Menu -->
+            <div class="flex items-center gap-4 md:gap-8">
+                
+                <!-- Tradutor PT/EN -->
+                <div class="flex items-center gap-3 border-x border-white/10 px-4 md:px-8">
+                    <a href="javascript:void(0)" onclick="doGTranslate('pt|pt')" class="nturl text-[11px] font-black tracking-tighter text-white hover:text-blue-400 transition-colors">PT</a>
+                    <span class="w-[1px] h-3 bg-white/20"></span>
+                    <a href="javascript:void(0)" onclick="doGTranslate('pt|en')" class="nturl text-[11px] font-black tracking-tighter text-white/30 hover:text-white transition-colors">EN</a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <a href="login.php" class="login-link">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        <span>Acesso</span>
+                    </a>
+                    
+                    <button onclick="toggleMenu()" class="flex flex-col gap-1.5 p-2.5 bg-white/5 rounded-full hover:bg-white/15 transition group">
+                        <div class="w-5 h-0.5 bg-white"></div>
+                        <div class="w-5 h-0.5 bg-white"></div>
+                        <div class="w-3 h-0.5 bg-white group-hover:w-5 transition-all"></div>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -162,7 +189,7 @@
                 <div class="flex flex-col gap-4">
                     <p class="text-white text-[13px] font-bold">Serviços</p>
                     <a href="#" class="text-[13px] hover:text-white transition">Busca por Região</a>
-                    <a href="#" class="text-[13px] hover:text-white transition">EStrutura Tecnologica</a>
+                    <a href="#" class="text-[13px] hover:text-white transition">Estrutura Tecnológica</a>
                     <a href="#" class="text-[13px] hover:text-white transition text-blue-500 font-semibold">Clube de Benefícios</a>
                     <a href="#" class="text-[13px] hover:text-white transition">Parcerias</a>
                 </div>
@@ -171,38 +198,44 @@
                     <a href="#" class="text-[13px] hover:text-white transition">FAQ</a>
                     <a href="#" class="text-[13px] hover:text-white transition">Ouvidoria</a>
                     <a href="#" class="text-[13px] hover:text-white transition">Projetos</a>
-                    <a href="#" class="text-[13px] hover:text-white transition">Investiores</a>
+                    <a href="#" class="text-[13px] hover:text-white transition">Investidores</a>
                     <a href="#" class="text-[13px] hover:text-white transition italic">Modern Slavery Policy</a>
                 </div>
             </div>
 
             <div class="space-y-8 text-[11px] leading-[1.6] text-[#666] border-t border-[#141414] pt-12">
-                <p>Para saber mais sobre qual unidade da <strong>The Orizon</strong> você recebe serviços, consulte nossa página de FAQ correspondente. Se você tiver outras dúvidas, entre em contato conosco através do chat de suporte diretamente aqui na plataforma ou no app The orizon.</p>
-                <p>A <strong>The Orizon Technologies</strong> é uma empresa de tecnologia registrada no Brasil sob o (CNPJ: 65.992.148/0001-03). Matriz: AV Getúlio Vargas, n:671, Sala 500, Savassi Belo Horizonte, Minas Gerais, Brasil. Nossas operações tecnológicas são desenvolvidas com fulcro na Lei nº 13.709/2018 (Lei Geral de Proteção de Dados).</p>
-                <p><strong>Encontre seu acessor:</strong> Seu acessor tecnológico em nossa plataforma. <strong>Oferecemos pacotes flexíveis de acordo com a sua necessidade, de projeto.</strong> Para garantir que seja desenvolvido um projeto completo e profissional, se faz necessário o maior número de informações e detalhes possíveis para nossa equipe.</p>
-                <p><strong>Serviços de Seguros e Benefícios:</strong> Parcerias de descontos estão em planejamento pela empresa em conjunto com corretoras parceiras autorizadas pela SUSEP e empresas de outros ramos de atividade. A plataforma viabiliza o acesso direto da sua base de usuários ativos a condições preferenciais.</p>
-                <p>Os indicadores de economia apresentados são estimativas exclusivas desenvolvidas pela nossa companhia, refletindo as condições médias do nosso ecossistema. Ocorrendo variações de acordo com o plano selecionado e modelo adotado. Taxas e T&Cs se aplicam.</p>
-                <p>A <strong>Empresa</strong> detém e opera a infraestrutura tecnológica dedicada à desenvolvimento, gestão e governança.</p>
-
+                <p>A <strong>The Orizon Technologies</strong> é uma empresa de tecnologia registrada no Brasil sob o (CNPJ: 65.992.148/0001-03). Matriz: AV Getúlio Vargas, n:671, Sala 500, Savassi Belo Horizonte, Minas Gerais, Brasil.</p>
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pt-10 border-t border-white/10">
                     <div class="space-y-2">
                         <p class="text-gray-400 text-xs">© 2026 The Orizon. Todos os direitos reservados.</p>
-                        <p class="text-[#666] text-[10px] uppercase tracking-wider font-medium">
-                            <strong>Matriz:</strong> Av. Getúlio Vargas, 671, Sala 500 - Savassi, Belo Horizonte/MG | CEP: 30.112-021 | <strong>CNPJ:</strong> 65.992.148/0001-03
-                        </p>
                     </div>
-                </div>
-
-                <div class="flex gap-4">
-                    <a href="termos.html" class="text-[#666] hover:text-white transition text-[10px] uppercase font-bold tracking-widest">Termos</a>
-                    <a href="privacidade.html" class="text-[#666] hover:text-white transition text-[10px] uppercase font-bold tracking-widest">Privacidade</a>
-                    <a href="seguranca.html" class="text-[#666] hover:text-white transition text-[10px] uppercase font-bold tracking-widest">Segurança</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script>
+    <!-- GTranslate Logic -->
+    <div id="google_translate_element2" style="display:none;"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit2() {
+            new google.translate.TranslateElement({pageLanguage: 'pt', autoDisplay: false}, 'google_translate_element2');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+    <script type="text/javascript">
+        function doGTranslate(lang_pair) {
+            if(lang_pair.value) lang_pair = lang_pair.value;
+            if(lang_pair == '') return;
+            var lang = lang_pair.split('|')[1];
+            var teCombo = document.querySelector('.goog-te-combo');
+            if(teCombo == null || teCombo.innerHTML == null) {
+                setTimeout(function(){ doGTranslate(lang_pair); }, 500);
+            } else {
+                teCombo.value = lang;
+                teCombo.dispatchEvent(new Event('change'));
+            }
+        }
+        
         function toggleMenu() {
             document.getElementById('mobile-menu').classList.toggle('active');
             document.getElementById('menu-overlay').classList.toggle('active');
