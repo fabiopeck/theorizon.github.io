@@ -41,12 +41,10 @@
             letter-spacing: -0.05em;
         }
 
-        /* Rodapé Minimalista */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Banner de Cookies Minimalista */
         #cookie-banner {
             position: fixed;
             bottom: 0;
@@ -55,7 +53,8 @@
             background: #0a0a0a;
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             z-index: 1000;
-            display: none; /* Ativado via JS */
+            display: none;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
@@ -75,7 +74,7 @@
         </div>
     </main>
 
-    <!-- Rodapé -->
+    <!-- Rodapé Minimalista -->
     <footer class="w-full py-6 px-10 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="text-center md:text-left">
@@ -96,7 +95,7 @@
     </footer>
 
     <!-- Banner de Cookies LGPD -->
-    <div id="cookie-banner" class="p-4 md:p-6 reveal">
+    <div id="cookie-banner" class="p-4 md:p-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-start gap-3">
                 <i class="fas fa-cookie-bite text-blue-500 mt-1"></i>
@@ -119,15 +118,25 @@
     </div>
 
     <script>
-        // Exibe o banner após 1 segundo
-        setTimeout(() => {
-            document.getElementById('cookie-banner').style.display = 'block';
-        }, 1000);
+        // Lógica de Persistência: Só mostra se não houver decisão salva
+        window.onload = function() {
+            if (!localStorage.getItem('orizon_cookies_accepted')) {
+                setTimeout(() => {
+                    const banner = document.getElementById('cookie-banner');
+                    banner.style.display = 'block';
+                    banner.classList.add('reveal');
+                }, 1000);
+            }
+        };
 
         function closeCookies() {
-            document.getElementById('cookie-banner').style.opacity = '0';
+            // Salva a decisão no Local Storage
+            localStorage.setItem('orizon_cookies_accepted', 'true');
+            
+            const banner = document.getElementById('cookie-banner');
+            banner.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('cookie-banner').style.display = 'none';
+                banner.style.display = 'none';
             }, 500);
         }
     </script>
