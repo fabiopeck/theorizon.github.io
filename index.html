@@ -9,125 +9,81 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg-color: #000000;
-            --accent-blue: #60a5fa;
-        }
-
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg-color); 
+            background-color: #000000; 
             color: #fff; 
             margin: 0; 
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Movimento Tech: Grid Animado ao Fundo */
-        .tech-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            animation: moveGrid 20s linear infinite;
-        }
-
-        @keyframes moveGrid {
-            from { transform: translateY(0); }
-            to { transform: translateY(50px); }
-        }
-
-        /* Brilho Suave (Glow) */
-        .glow-overlay {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(96, 165, 250, 0.05) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            filter: blur(80px);
-        }
-
-        /* Animação de Deslize (Reveal) */
+        /* Animação suave de entrada */
         .reveal {
             opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            transform: translateY(10px);
+            animation: fadeIn 0.8s ease-out forwards;
         }
 
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-
-        @keyframes slideUp {
+        @keyframes fadeIn {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .glass-ui {
-            background: rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
         .notranslate { translate: no !important; }
 
         .responsive-title {
-            font-size: clamp(2.5rem, 10vw, 6rem);
-            line-height: 0.85;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 0.9;
             letter-spacing: -0.05em;
+        }
+
+        /* Rodapé ultra fino e sem fundo grosseiro */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
         }
     </style>
 </head>
-<body class="flex flex-col">
+<body>
 
-    <!-- Elementos de Movimento Tech -->
-    <div class="tech-grid"></div>
-    <div class="glow-overlay"></div>
-
-    <!-- Conteúdo Principal -->
+    <!-- Conteúdo Central -->
     <main class="flex-grow flex flex-col justify-center items-center px-6">
-        <div class="text-center">
-            <span class="text-blue-400 font-bold tracking-[10px] uppercase text-[10px] mb-6 block reveal">Digital Ecosystems</span>
-            <h1 class="responsive-title font-extrabold uppercase notranslate mb-8 reveal delay-1">
+        <div class="text-center reveal">
+            <span class="text-blue-500 font-bold tracking-[10px] uppercase text-[10px] mb-4 block">Digital Ecosystems</span>
+            <h1 class="responsive-title font-extrabold uppercase notranslate mb-6">
                 THE ORIZON<br>
-                <span class="opacity-40 font-light">TECHNOLOGIES</span>
+                <span class="opacity-30 font-light">TECHNOLOGIES</span>
             </h1>
-            <p class="max-w-xl mx-auto text-white/80 text-sm leading-relaxed uppercase tracking-widest font-medium reveal delay-2">
-                Infraestrutura tecnológica digital de alta performance
+            <p class="max-w-lg mx-auto text-white/80 text-[11px] uppercase tracking-[4px] font-medium">
+                Infraestrutura tecnológica de alta performance
             </p>
         </div>
     </main>
 
-    <!-- Rodapé Minimalista -->
-    <footer class="w-full py-10 px-10 glass-ui mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+    <!-- Rodapé Minimalista e Fino -->
+    <footer class="w-full py-6 px-10 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             
             <!-- Dados da Matriz -->
-            <div class="text-center md:text-left reveal">
-                <p class="text-white font-bold text-[13px] tracking-tight notranslate uppercase mb-2">THE ORIZON TECHNOLOGIES</p>
-                <p class="text-white/70 text-[10px] uppercase tracking-widest leading-relaxed">
-                    MATRIZ: AV. Getúlio Vargas, 671, Sala 500, Savassi<br>
-                    Belo Horizonte, MG - Brasil | CNPJ: 65.992.148/0001-03
+            <div class="text-center md:text-left">
+                <p class="text-white font-bold text-[10px] tracking-widest notranslate uppercase mb-1">THE ORIZON TECHNOLOGIES</p>
+                <p class="text-white/60 text-[9px] uppercase tracking-wider">
+                    AV. Getúlio Vargas, 671, Sala 500, Savassi, BH/MG | CNPJ: 65.992.148/0001-03
                 </p>
             </div>
 
-            <!-- Navegação e Links -->
-            <div class="flex flex-col items-center md:items-end gap-4 reveal">
-                <div class="flex flex-wrap justify-center gap-8">
-                    <a href="privacidade.html" class="text-white/70 text-[10px] font-bold tracking-[2px] hover:text-blue-400 transition-all uppercase">Privacidade</a>
-                    <a href="acessibilidade.html" class="text-white/70 text-[10px] font-bold tracking-[2px] hover:text-blue-400 transition-all uppercase">Acessibilidade</a>
-                    <a href="termos.html" class="text-white/70 text-[10px] font-bold tracking-[2px] hover:text-blue-400 transition-all uppercase">Termos</a>
+            <!-- Links e Legal -->
+            <div class="flex flex-col items-center md:items-end gap-2">
+                <div class="flex gap-6">
+                    <a href="privacidade.html" class="text-white/50 text-[9px] font-bold tracking-[1px] hover:text-white transition-all uppercase">Privacidade</a>
+                    <a href="acessibilidade.html" class="text-white/50 text-[9px] font-bold tracking-[1px] hover:text-white transition-all uppercase">Acessibilidade</a>
+                    <a href="termos.html" class="text-white/50 text-[9px] font-bold tracking-[1px] hover:text-white transition-all uppercase">Termos</a>
                 </div>
-                <p class="text-white/40 text-[9px] uppercase tracking-[4px]">© 2026 Todos os direitos reservados.</p>
+                <p class="text-white/20 text-[8px] tracking-[2px]">© 2026</p>
             </div>
 
         </div>
