@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    THE ORIZON | Platform Infrastructure & Digital Ecosystems
+    <title>THE ORIZON | Platform Infrastructure & Digital Ecosystems</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; }
         
         .carousel-item { transition: opacity 1.5s ease-in-out; }
-        .carousel-item img { filter: contrast(1.05) brightness(0.85); }
+        .carousel-item img { filter: contrast(1.1) brightness(0.6); }
 
         .glass-header {
-            background: transparent;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .glass-overlay {
-            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.8) 100%);
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.9) 100%);
         }
 
-        .text-shadow-lg { text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .soft-shadow { box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08); }
-
-        /* Ajuste de Título Fluido para qualquer tela */
         .responsive-title {
             font-size: clamp(2.5rem, 8vw, 5rem);
             line-height: 0.9;
@@ -58,12 +55,7 @@
             padding-bottom: 12px;
             text-transform: uppercase;
         }
-        
-        .menu-link:hover {
-            color: #3b82f6;
-            padding-left: 8px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
-        }
+        .menu-link:hover { color: #fff; padding-left: 8px; border-bottom: 1px solid #fff; }
 
         .login-link {
             display: inline-flex;
@@ -72,157 +64,117 @@
             color: white;
             font-size: 14px;
             font-weight: 600;
-            letter-spacing: -0.01em;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.4s ease;
             padding: 8px 16px;
             border-radius: 9999px;
-            opacity: 0.95;
             border: 1px solid rgba(255, 255, 255, 0.15);
             background: rgba(255, 255, 255, 0.03);
         }
-        
-        .login-link:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.08) translateY(-2px);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-        }
+        .login-link:hover { background: #fff; color: #000; }
 
-        /* Ajuste para iPhone 7 e Telas Pequenas */
         @media (max-width: 640px) {
             .login-link span { display: none; }
-            .login-link { padding: 8px; }
             header { height: 80px !important; }
-            .hero-btns { flex-direction: column; width: 100%; max-width: 300px; }
-            .hero-btns a { width: 100%; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <audio id="click-sound" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
-    </audio>
-
-    <div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
-
+    <!-- Overlay do Menu -->
     <div id="menu-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] opacity-0"></div>
 
     <header class="fixed w-full top-0 z-50 glass-header">
-    <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-end">
-        
-        <!-- Bloco de Ações (Login + Menu) mantido à direita -->
-        <div class="flex items-center gap-2">
-            <a href="login.php" class="login-link">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
-                <span>Fazer Login</span>
-            </a>
-
-            <button onclick="toggleMenu()" class="flex flex-col gap-1.5 p-2.5 bg-white/10 rounded-lg hover:bg-white/20 transition group ml-2">
-                <div class="w-7 h-0.5 bg-white"></div>
-                <div class="w-7 h-0.5 bg-white"></div>
-                <div class="w-5 h-0.5 bg-blue-400 group-hover:w-7 transition-all"></div>
-            </button>
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-end">
+            <div class="flex items-center gap-2">
+                <a href="login.php" class="login-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span>Fazer Login</span>
+                </a>
+                <button onclick="toggleMenu()" class="flex flex-col gap-1.5 p-2.5 bg-white/10 rounded-lg hover:bg-white/20 transition group ml-2">
+                    <div class="w-7 h-0.5 bg-white"></div>
+                    <div class="w-7 h-0.5 bg-white"></div>
+                    <div class="w-5 h-0.5 bg-white group-hover:w-7 transition-all"></div>
+                </button>
+            </div>
         </div>
+    </header>
 
-    </div>
-</header>
-
-    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-80 bg-slate-950/95 backdrop-blur-xl z-[60] shadow-2xl p-8 flex flex-col">
+    <!-- Menu Lateral -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-80 bg-slate-950 z-[60] shadow-2xl p-8 flex flex-col">
         <button onclick="toggleMenu()" class="self-end text-white/30 hover:text-white uppercase text-[10px] font-black tracking-[0.2em] mb-12">Fechar ✕</button>
-        <nav class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-6 text-left">
             <a href="#" class="menu-link">Governança</a>
-            <a href="#" class="menu-link">Como Funciona</a>
-            <a href="#" class="menu-link">Parcerias</a>
-            <a href="#" class="menu-link">Sustentabilidade</a>
-            <a href="#" class="menu-link">Lei Geral de Proteção de Dados</a>
+            <a href="#" class="menu-link">Tecnologia</a>
+            <a href="#" class="menu-link">Ecossistema</a>
+            <a href="#" class="menu-link">LGPD</a>
             <a href="#" class="menu-link">Contatos</a>
-            <a href="#" class="menu-link">FAQ & Ajuda</a>
         </nav>
-        <div class="mt-auto pb-4">
+        <div class="mt-auto">
             <p class="text-[9px] text-white/20 uppercase tracking-widest font-bold text-center">THE ORIZON v2.0</p>
         </div>
     </div>
 
+    <!-- Hero Section com Carrossel -->
     <section class="relative h-screen w-full overflow-hidden bg-black">
         <div class="carousel-item absolute inset-0 opacity-100">
-    <img src="https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGxhbm8lMjBkZSUyMGZ1bmRvJTIwZXNjdXJvfGVufDB8fDB8fHww" class="w-full h-full object-cover" alt="Banner 1">
-</div>
-
-<div class="carousel-item absolute inset-0 opacity-0">
-    <img src="https://images.unsplash.com/photo-1517837402578-70aaeb027fe7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8" class="w-full h-full object-cover" alt="Banner 2">
-</div>
-
-<div class="carousel-item absolute inset-0 opacity-0">
-    <img src="https://img.freepik.com/fotos-premium/belo-nascer-do-sol-acima-das-nuvens-nas-montanhas_141856-736.jpg?semt=ais_hybrid&w=740&q=80" class="w-full h-full object-cover" alt="Banner 3">
-</div>
+            <img src="https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?auto=format&fit=crop&w=1920&q=80" class="w-full h-full object-cover" alt="Banner 1">
+        </div>
+        <div class="carousel-item absolute inset-0 opacity-0">
+            <img src="https://images.unsplash.com/photo-1517837402578-70aaeb027fe7?auto=format&fit=crop&w=1920&q=80" class="w-full h-full object-cover" alt="Banner 2">
+        </div>
+        <div class="carousel-item absolute inset-0 opacity-0">
+            <img src="https://img.freepik.com/fotos-premium/belo-nascer-do-sol-acima-das-nuvens-nas-montanhas_141856-736.jpg?w=1920&q=80" class="w-full h-full object-cover" alt="Banner 3">
+        </div>
 
         <div class="absolute inset-0 glass-overlay z-10 flex flex-col justify-center items-center text-center px-6">
-    <!-- Identificador de Categoria -->
-    <span class="text-white/40 font-bold tracking-[10px] uppercase text-[10px] mb-8">
-        Platform Infrastructure & Digital Ecosystems
-    </span>
-
-    <!-- Título Principal com Tipografia Moderna -->
-    <h1 class="responsive-title font-extrabold uppercase mb-12 text-white leading-none tracking-tighter">
-        THE ORIZON <br>
-        <span class="text-white/20 font-light">TECHNOLOGIES</span>
-    </h1>
-
-    <!-- Ações Institucionais -->
-    <div class="flex flex-wrap justify-center gap-6">
-        <a href="#ecosystem" class="border border-white/20 text-white px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-[3px] hover:bg-white hover:text-black transition-all duration-500">
-            Explorar Ecossistema
-        </a>
-        <a href="#contact" class="bg-white text-black px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-[3px] hover:bg-white/90 transition-all duration-500">
-            Contato Direto
-        </a>
-    </div>
-</div>
-
-    <footer>
-        <div class="footer-left">
-            <strong>THE ORIZON TECHNOLOGIES</strong> | CNPJ: 65.992.148/0001-03<br>
-            AV. GETÚLIO VARGAS, 671, SALA 500, SAVASSI, BH-MG
+            <span class="text-white/40 font-bold tracking-[10px] uppercase text-[10px] mb-8">Platform Infrastructure & Digital Ecosystems</span>
+            <h1 class="responsive-title font-extrabold uppercase mb-12 text-white leading-none tracking-tighter">
+                THE ORIZON <br>
+                <span class="text-white/20 font-light">TECHNOLOGIES</span>
+            </h1>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#" class="border border-white/20 text-white px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-[3px] hover:bg-white hover:text-black transition-all">Explorar Ecossistema</a>
+                <a href="#" class="bg-white text-black px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-[3px] hover:bg-gray-200 transition-all">Contato Direto</a>
+            </div>
         </div>
-        <p style="margin-top: 5px;">© 2026 THE ORIZON TECHNOLOGIES</p>
-        <div class="footer-right">
-            <a href="#">PRIVACIDADE</a>
-            <a href="#">ACESSIBILIDADE</a>
-            <a href="#">TERMOS</a>
+    </section>
+
+    <!-- Footer Institucional -->
+    <footer class="bg-[#050505] text-[#666] py-16 px-6 border-t border-[#1a1a1a]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <p class="text-white font-bold text-sm tracking-widest uppercase mb-2">The Orizon Technologies</p>
+                <p class="text-[10px] leading-relaxed">
+                    Av. Getúlio Vargas, 671, Sala 500 - Savassi, BH/MG<br>
+                    CNPJ: 65.992.148/0001-03 | CONTATO@THEORIZON.COM.BR
+                </p>
+            </div>
+            <div class="flex gap-6 text-[10px] font-bold tracking-widest uppercase">
+                <a href="#" class="hover:text-white transition">Privacidade</a>
+                <a href="#" class="hover:text-white transition">Termos</a>
+                <a href="#" class="hover:text-white transition">Segurança</a>
+            </div>
         </div>
+        <p class="text-center text-[9px] mt-10 opacity-30 uppercase tracking-widest">© 2026 Todos os direitos reservados.</p>
     </footer>
 
     <script>
+        // Lógica do Menu
         function toggleMenu() {
-            const menu = document.getElementById('menuOverlay');
-            menu.classList.toggle('active');
-            const lines = document.querySelectorAll('.menu-btn div');
-            if(menu.classList.contains('active')) {
-                lines[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
-                lines[1].style.opacity = '0';
-                lines[2].style.transform = 'rotate(-45deg) translate(5px, -7px)';
-            } else {
-                lines[0].style.transform = 'none'; lines[1].style.opacity = '1'; lines[2].style.transform = 'none';
-                backToMenu();
-            }
+            document.getElementById('mobile-menu').classList.toggle('active');
+            document.getElementById('menu-overlay').classList.toggle('active');
         }
 
-        function showSection(id) {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
+        // Lógica do Carrossel Automático
+        let currentItem = 0;
+        const items = document.querySelectorAll('.carousel-item');
+        
+        function nextItem() {
+            items[currentItem].style.opacity = 0;
+            currentItem = (currentItem + 1) % items.length;
+            items[currentItem].style.opacity = 1;
         }
-
-        function backToMenu() {
-            document.getElementById('mainMenu').style.display = 'block';
-            document.querySelectorAll('.section-content').forEach(s => s.style.display = 'none');
-        }
+        setInterval(nextItem, 5000);
     </script>
 </body>
 </html>
