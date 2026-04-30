@@ -27,10 +27,7 @@
         }
 
         @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .notranslate { translate: no !important; }
@@ -43,8 +40,6 @@
 
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 10;
         }
 
         #cookie-banner {
@@ -58,18 +53,10 @@
             display: none;
             transition: opacity 0.5s ease;
         }
-
-        /* Posicionamento Customizado UserWay */
-        .uwy.userway_p1 .userway_buttons_wrapper {
-            bottom: 120px !important; /* Ajuste para ficar acima do rodapé */
-            left: 20px !important;
-            right: auto !important;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Conteúdo Central -->
     <main class="flex-grow flex flex-col justify-center items-center px-6">
         <div class="text-center reveal">
             <span class="text-blue-500 font-bold tracking-[10px] uppercase text-[10px] mb-4 block">Digital Ecosystems</span>
@@ -83,7 +70,6 @@
         </div>
     </main>
 
-    <!-- Rodapé Minimalista -->
     <footer class="w-full py-6 px-10 mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="text-center md:text-left">
@@ -103,29 +89,21 @@
         </div>
     </footer>
 
-    <!-- Banner de Cookies LGPD -->
     <div id="cookie-banner" class="p-4 md:p-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-start gap-3">
                 <i class="fas fa-cookie-bite text-blue-500 mt-1"></i>
                 <p class="text-[10px] md:text-[11px] text-white/70 leading-relaxed uppercase tracking-wider">
-                    Utilizamos cookies para melhorar a eficiência da plataforma e qualidade do atendimento ao usuário com base na <span class="text-white font-bold">Lei nº 13.709/2018 (LGPD)</span>.
+                    Utilizamos cookies para melhorar a eficiência da plataforma com base na Lei nº 13.709/2018 (LGPD).
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-3">
-                <button onclick="closeCookies()" class="text-[9px] font-bold tracking-widest uppercase text-white/40 hover:text-white transition-all px-4 py-2">
-                    <i class="fas fa-cog mr-1"></i> Configurações
-                </button>
-                <button onclick="closeCookies()" class="text-[9px] font-bold tracking-widest uppercase text-white/40 hover:text-white transition-all px-4 py-2">
-                    Rejeitar
-                </button>
-                <button onclick="closeCookies()" class="bg-blue-600 text-white text-[9px] font-bold tracking-widest uppercase px-6 py-2 rounded-sm hover:bg-blue-500 transition-all">
-                    Aceitar
-                </button>
+                <button onclick="closeCookies()" class="bg-blue-600 text-white text-[9px] font-bold tracking-widest uppercase px-6 py-2 rounded-sm hover:bg-blue-500 transition-all">Aceitar</button>
             </div>
         </div>
     </div>
 
+    <!-- Scripts de Memória e Consentimento -->
     <script>
         window.onload = function() {
             if (!localStorage.getItem('orizon_cookies_accepted')) {
@@ -141,16 +119,14 @@
             localStorage.setItem('orizon_cookies_accepted', 'true');
             const banner = document.getElementById('cookie-banner');
             banner.style.opacity = '0';
-            setTimeout(() => {
-                banner.style.display = 'none';
-            }, 500);
+            setTimeout(() => { banner.style.display = 'none'; }, 500);
         }
     </script>
 
-    <!-- UserWay Widget -->
+    <!-- UserWay (Lado Esquerdo Inferior) -->
     <script src="https://cdn.userway.org/widget.js" data-account="0ExuUZCVyZ"></script>
 
-    <!-- VLibras -->
+    <!-- VLibras (Lado Direito Inferior) -->
     <div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
