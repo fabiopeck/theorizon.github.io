@@ -40,11 +40,10 @@
             z-index: -1;
         }
 
-        /* Vidro Ultra Limpo (Translúcido) */
+        /* Vidro Ultra Limpo (Sem Desfoque/Embaçado) */
         .glass-ui {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            /* Backdrop-filter removido para retirar o embaçado */
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -64,10 +63,10 @@
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
 
-    <!-- Header Simples -->
+    <!-- Header Simples (Nome removido do canto esquerdo) -->
     <header class="fixed w-full top-0 z-50 py-6 px-10">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <span class="text-xl font-black tracking-tighter notranslate">THE ORIZON</span>
+        <div class="max-w-7xl mx-auto flex justify-end items-center">
+            <!-- Badge de Produção Própria mantido à direita -->
             <div class="glass-ui px-6 py-2 rounded-full">
                 <span class="text-[10px] font-bold tracking-[3px] uppercase opacity-60">Private Production Only</span>
             </div>
@@ -88,7 +87,7 @@
         </div>
     </main>
 
-    <!-- Rodapé Institucional (O que a Apple audita) -->
+    <!-- Rodapé Institucional -->
     <footer class="w-full py-12 px-10 border-t border-white/10 glass-ui mt-auto">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-10">
             
@@ -105,7 +104,7 @@
                 <p class="text-white/20 text-[9px]">© 2026 Todos os direitos reservados.</p>
             </div>
 
-            <!-- Direita: Links Obrigatórios (Apontando para .html) -->
+            <!-- Direita: Links Obrigatórios -->
             <div class="flex flex-wrap gap-6 md:gap-10">
                 <a href="privacidade.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Privacidade</a>
                 <a href="acessibilidade.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Acessibilidade</a>
