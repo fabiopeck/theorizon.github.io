@@ -43,6 +43,8 @@
 
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 10;
         }
 
         #cookie-banner {
@@ -55,6 +57,13 @@
             z-index: 1000;
             display: none;
             transition: opacity 0.5s ease;
+        }
+
+        /* Posicionamento Customizado UserWay */
+        .uwy.userway_p1 .userway_buttons_wrapper {
+            bottom: 120px !important; /* Ajuste para ficar acima do rodapé */
+            left: 20px !important;
+            right: auto !important;
         }
     </style>
 </head>
@@ -118,7 +127,6 @@
     </div>
 
     <script>
-        // Lógica de Persistência: Só mostra se não houver decisão salva
         window.onload = function() {
             if (!localStorage.getItem('orizon_cookies_accepted')) {
                 setTimeout(() => {
@@ -130,9 +138,7 @@
         };
 
         function closeCookies() {
-            // Salva a decisão no Local Storage
             localStorage.setItem('orizon_cookies_accepted', 'true');
-            
             const banner = document.getElementById('cookie-banner');
             banner.style.opacity = '0';
             setTimeout(() => {
@@ -140,6 +146,9 @@
             }, 500);
         }
     </script>
+
+    <!-- UserWay Widget -->
+    <script src="https://cdn.userway.org/widget.js" data-account="0ExuUZCVyZ"></script>
 
     <!-- VLibras -->
     <div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
