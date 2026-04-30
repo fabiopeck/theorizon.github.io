@@ -17,14 +17,13 @@
             min-height: 100vh;
         }
         
-        /* Imagem de Fundo com Overlay */
         .hero-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGxhbm8lMjBkZSUyMGZ1bmRvJTIwZXNjdXJvfGVufDB8fDB8fHww');
+            background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHRlY25vbG9naWF8ZW58MHx8MHx8fDA%3D');
             background-size: cover;
             background-position: center;
             z-index: -2;
@@ -40,11 +39,12 @@
             z-index: -1;
         }
 
-        /* Vidro Ultra Limpo (Sem Desfoque/Embaçado) */
+        /* Estilo Glass UI nítido (sem blur) */
         .glass-ui {
-            background: rgba(255, 255, 255, 0.05);
-            /* Backdrop-filter removido para retirar o embaçado */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
         }
 
         .notranslate { translate: no !important; }
@@ -59,22 +59,11 @@
 </head>
 <body class="flex flex-col">
 
-    <!-- Background Layers -->
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
 
-    <!-- Header Simples (Nome removido do canto esquerdo) -->
-    <header class="fixed w-full top-0 z-50 py-6 px-10">
-        <div class="max-w-7xl mx-auto flex justify-end items-center">
-            <!-- Badge de Produção Própria mantido à direita -->
-            <div class="glass-ui px-6 py-2 rounded-full">
-                <span class="text-[10px] font-bold tracking-[3px] uppercase opacity-60">Private Production Only</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content (Vitrine) -->
-    <main class="flex-grow flex flex-col justify-center items-center px-6 pt-20">
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col justify-center items-center px-6">
         <div class="text-center">
             <span class="text-blue-400 font-bold tracking-[8px] uppercase text-[10px] mb-6 block">Digital Ecosystems</span>
             <h1 class="responsive-title font-extrabold uppercase notranslate mb-8">
@@ -82,33 +71,30 @@
                 <span class="opacity-30 font-light">TECHNOLOGIES</span>
             </h1>
             <p class="max-w-xl mx-auto text-white/50 text-sm leading-relaxed uppercase tracking-widest font-medium">
-                Infraestrutura tecnológica de alta performance para ativos digitais.
+                Infraestrutura tecnológica digital de alta performance
             </p>
         </div>
     </main>
 
-    <!-- Rodapé Institucional -->
-    <footer class="w-full py-12 px-10 border-t border-white/10 glass-ui mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-10">
+    <!-- Rodapé Compacto e Nítido -->
+    <footer class="w-full py-6 px-10 glass-ui mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             
-            <!-- Esquerda: Dados Oficiais -->
-            <div class="space-y-4 text-left">
-                <div class="space-y-1">
-                    <p class="text-white font-bold text-[12px] tracking-tight notranslate">THE ORIZON TECHNOLOGIES</p>
-                    <p class="text-white/40 text-[10px] uppercase tracking-wider leading-relaxed">
-                        CNPJ: 65.992.148/0001-03<br>
-                        AV. Getúlio Vargas, 671, Sala 500, Savassi<br>
-                        Belo Horizonte, MG - Brasil
-                    </p>
-                </div>
-                <p class="text-white/20 text-[9px]">© 2026 Todos os direitos reservados.</p>
+            <!-- Dados Oficiais -->
+            <div class="text-center md:text-left">
+                <p class="text-white font-bold text-[11px] tracking-tight notranslate uppercase">THE ORIZON TECHNOLOGIES</p>
+                <p class="text-white/40 text-[9px] uppercase tracking-wider">
+                    CNPJ: 65.992.148/0001-03 | Savassi, Belo Horizonte - MG
+                </p>
             </div>
 
-            <!-- Direita: Links Obrigatórios -->
-            <div class="flex flex-wrap gap-6 md:gap-10">
-                <a href="privacidade.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Privacidade</a>
-                <a href="acessibilidade.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Acessibilidade</a>
-                <a href="termos.html" class="text-white/40 text-[10px] font-bold tracking-[2px] hover:text-white transition-colors uppercase">Termos</a>
+            <!-- Links e Copyright -->
+            <div class="flex flex-col items-center md:items-end gap-2">
+                <div class="flex gap-6">
+                    <a href="privacidade.html" class="text-white/30 text-[9px] font-bold tracking-[1px] hover:text-white transition-colors uppercase">Privacidade</a>
+                    <a href="termos.html" class="text-white/30 text-[9px] font-bold tracking-[1px] hover:text-white transition-colors uppercase">Termos</a>
+                </div>
+                <p class="text-white/20 text-[8px] uppercase tracking-widest">© 2026 Todos os direitos reservados.</p>
             </div>
 
         </div>
