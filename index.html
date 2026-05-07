@@ -91,44 +91,5 @@
         </div>
     </footer>
 
-    <div id="cookie-banner" class="p-4 md:p-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-start gap-3">
-                <i class="fas fa-cookie-bite text-blue-500 mt-1"></i>
-                <p class="text-[10px] md:text-[11px] text-white/70 leading-relaxed uppercase tracking-wider">
-                    Utilizamos cookies para melhorar a eficiência da plataforma e qualidade do atendimento ao usuário com base na <span class="text-white font-bold">Lei nº 13.709/2018 (LGPD)</span>.
-                </p>
-            </div>
-            <div class="flex flex-wrap items-center gap-3">
-                <button onclick="closeCookies()" class="bg-blue-600 text-white text-[9px] font-bold tracking-widest uppercase px-6 py-2 rounded-sm hover:bg-blue-500 transition-all">
-                    Aceitar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        window.onload = function() {
-            if (!localStorage.getItem('orizon_cookies_accepted')) {
-                setTimeout(() => {
-                    const banner = document.getElementById('cookie-banner');
-                    banner.style.display = 'block';
-                    banner.classList.add('reveal');
-                }, 1000);
-            }
-        };
-
-        function closeCookies() {
-            localStorage.setItem('orizon_cookies_accepted', 'true');
-            const banner = document.getElementById('cookie-banner');
-            banner.style.opacity = '0';
-            setTimeout(() => { banner.style.display = 'none'; }, 500);
-        }
-    </script>
-
-    <div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
-
 </body>
 </html>
