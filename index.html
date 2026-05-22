@@ -1,95 +1,613 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <link rel="canonical" href="https://www.theorizon.com.br/" />
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title class="notranslate">THE ORIZON | Platform Infrastructure</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE ORIZON // SQUAD TECH</title>
     <style>
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #000000; 
-            color: #fff; 
-            margin: 0; 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        :root {
+            --bg-color: #080808;
+            --text-color: #ffffff;
+            --accent-color: #555555;
+            --font-main: 'Helvetica Neue', Arial, sans-serif;
         }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeIn 0.8s ease-out forwards;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
+        html {
+            scroll-behavior: smooth;
         }
 
-        .notranslate { translate: no !important; }
-
-        .responsive-title {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            line-height: 0.9;
-            letter-spacing: -0.05em;
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            letter-spacing: 0.1em;
+            line-height: 1.6;
         }
 
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        #cookie-banner {
+        /* Nav / Header Fixo Estilo Tao Tajima */
+        header {
             position: fixed;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            background: #0a0a0a;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            z-index: 1000;
-            display: none;
+            padding: 35px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        /* Menu Hamburguer */
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            width: 35px;
+            height: 35px;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 102;
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 26px;
+            height: 2px;
+            background-color: white;
+            transition: transform 0.3s ease, width 0.3s ease;
+        }
+
+        .menu-btn span:nth-child(2) { width: 16px; }
+
+        .menu-btn.open span:nth-child(1) {
+            transform: translateY(4.5px) rotate(45deg);
+            width: 26px;
+        }
+        .menu-btn.open span:nth-child(2) {
+            transform: translateY(-4.5px) rotate(-45deg);
+            width: 26px;
+        }
+
+        /* Overlay do Menu */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 101;
+            opacity: 0;
+            pointer-events: none;
             transition: opacity 0.5s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 0.99;
+            pointer-events: auto;
+        }
+
+        .menu-links {
+            list-style: none;
+            text-align: center;
+        }
+
+        .menu-links li { margin: 25px 0; }
+
+        .menu-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        .menu-links a:hover { opacity: 0.4; }
+
+        /* Estrutura das Seções Básicas */
+        section {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            padding: 140px 40px 80px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid #151515;
+        }
+
+        /* Efeito de Parallax das Imagens de Fundo */
+        .parallax-bg {
+            position: absolute;
+            top: -20vh;
+            left: 0;
+            width: 100%;
+            height: 140vh;
+            z-index: 1;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .parallax-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.2) contrast(1.1) grayscale(100%);
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* SEÇÃO 1: HERO */
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            text-transform: uppercase;
+            line-height: 1.1;
+            font-weight: 400;
+            margin-bottom: 30px;
+            max-width: 900px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        /* SEÇÃO 2: GRID DE CLIENTES */
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .brand-item {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #666;
+            text-transform: uppercase;
+            border: 1px solid #1a1a1a;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .brand-item:hover {
+            color: #fff;
+            border-color: #444;
+        }
+
+        /* SEÇÃO 3 & 4: BENEFÍCIOS */
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 80px;
+            align-items: center;
+        }
+
+        .stat-box { margin-bottom: 40px; }
+
+        .stat-number {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 300;
+            line-height: 1;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .split-text h2 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .split-text p {
+            color: #aaa;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        /* SEÇÃO 5: ENGAGE THEM ALL */
+        .tech-stories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .story-card {
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid #1a1a1a;
+            padding: 30px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+            will-change: transform;
+        }
+
+        .story-card:hover {
+            border-color: #333;
+            transform: translateY(-5px);
+        }
+
+        .story-card .tag {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .story-card h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .story-card p {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        /* Efeito de revelação */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Botões */
+        .btn {
+            padding: 15px 35px;
+            border: 1px solid white;
+            background: none;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            cursor: pointer;
+            letter-spacing: 0.2em;
+            transition: background 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: white;
+            color: black;
+        }
+
+        .btn-dark {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-color);
+        }
+
+        /* RODAPÉ INSTITUCIONAL PROFISSIONAL */
+        footer {
+            background-color: #030303;
+            padding: 80px 40px 40px 40px;
+            border-top: 1px solid #111111;
+            font-size: 0.8rem;
+            color: #555555;
+            text-transform: uppercase;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-brand h4 {
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            margin-bottom: 15px;
+        }
+
+        .footer-info h5 {
+            color: #aaaaaa;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .footer-info p {
+            line-height: 1.8;
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Barra Final Alinhada nas Extremidades */
+        .footer-bottom {
+            border-top: 1px solid #111111;
+            padding-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Esquerda */
+        .footer-copy {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Direita */
+        .footer-legal-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-legal-links a {
+            color: #555555;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+        }
+
+        .footer-legal-links a:hover {
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <main class="flex-grow flex flex-col justify-center items-center px-6">
-        <div class="text-center reveal">
-            <span class="text-blue-500 font-bold tracking-[10px] uppercase text-[10px] mb-4 block">Digital Ecosystems</span>
-            <h1 class="responsive-title font-extrabold uppercase notranslate mb-6">
-                THE ORIZON<br>
-                <span class="opacity-30 font-light">TECHNOLOGIES</span>
-            </h1>
-            <p class="max-w-lg mx-auto text-white/80 text-[11px] uppercase tracking-[4px] font-medium">
-                Infraestrutura tecnológica de alta performance
-            </p>
-        </div>
-    </main>
+    <!-- Header Fixo -->
+    <header>
+        <div class="logo">THE ORIZON</div>
+        <button class="menu-btn" aria-label="Menu">
+            <span></span>
+            <span></span>
+        </button>
+    </header>
 
-    <footer class="w-full py-6 px-10 mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="text-center md:text-left">
-                <p class="text-white font-bold text-[10px] tracking-widest notranslate uppercase mb-1">THE ORIZON TECHNOLOGIES</p>
-                <p class="text-white/60 text-[9px] uppercase tracking-wider">
-                    AV. Getúlio Vargas, 671, Sala 500, Savassi, BH/MG | CNPJ: 65.992.148/0001-03
-                </p>
+    <!-- Menu Lateral -->
+    <nav class="menu-overlay">
+        <ul class="menu-links">
+            <li><a href="#hero">Início</a></li>
+            <li><a href="#ecosystem">Ecossistema</a></li>
+            <li><a href="#impact">Impacto Real</a></li>
+            <li><a href="#cohesion">Coesão Tech</a></li>
+            <li><a href="#stories">Histórias</a></li>
+        </ul>
+    </nav>
+
+    <!-- SEÇÃO 1: HERO -->
+    <section id="hero">
+        <div class="parallax-bg"><img src="https://unsplash.com" alt="Tech"></div>
+        <div class="container reveal">
+            <h1 class="hero-title">Você nunca esteve tão próximo de integrar seu sistema de tecnologia.</h1>
+            <p>Conectando engenheiros e desenvolvedores através de dinâmicas inteligentes baseadas em dados estruturados.</p>
+            <div class="hero-buttons">
+                <a href="#stories" class="btn">Sistema Digital</a>
+                <a href="#ecosystem" class="btn btn-dark">Tecnologia Escalável</a>
             </div>
-            <div class="flex flex-col items-center md:items-end gap-2">
-                <div class="flex gap-6">
-                    <a href="privacidade.html" class="text-white/50 text-[9px] font-bold tracking-[1px] hover:text-white transition-all uppercase">Privacidade</a>
-                    <a href="acessibilidade.html" class="text-white/50 text-[9px] font-bold tracking-[1px] hover:text-white transition-all uppercase">Acessibilidade</a>
-                    <a href="termos.html" class="text-white/50 text-[9px] font-bold tracking-[1px] hover:text-white transition-all uppercase">Termos</a>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 2: ECOSSISTEMA / CLIENTES -->
+    <section id="ecosystem">
+        <div class="container reveal">
+            <p style="font-size:0.8rem; color:#555; text-transform:uppercase; margin-bottom: 20px;">Marcas que escalam conosco</p>
+            <div class="brand-grid">
+                <div class="brand-item">Decathlon</div>
+                <div class="brand-item">X'Oreal</div>
+                <div class="brand-item">Edenred</div>
+                <div class="brand-item">Safrangen</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 3: IMPACTO E PRODUTIVIDADE -->
+    <section id="impact">
+        <div class="parallax-bg"><img src="https://unsplash.com" alt="Code"></div>
+        <div class="container">
+            <div class="split-grid">
+                <div class="reveal">
+                    <div class="stat-box">
+                        <div class="stat-number">+7.4%</div>
+                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">Aumento médio em produtividade por dev</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">85%</div>
+                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">Engajamento sustentável no workplace</p>
+                    </div>
                 </div>
-                <p class="text-white/20 text-[8px] tracking-[2px]">© 2026 Todos direitos reservados.</p>
+                <div class="split-text reveal">
+                    <h2>Produtividade sim, mas com saúde mental.</h2>
+                    <p>Nossa inteligência computacional mapeia e estimula a mobilidade diária e o equilíbrio físico dos times de programação.</p>
+                    <p>Ao quebrar o isolamento técnico, elevamos a coesão das equipes de desenvolvimento sem gerar sobrecarga.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 4: COESÃO TECH -->
+    <section id="cohesion">
+        <div class="container">
+            <div class="split-grid">
+                <div class="split-text reveal">
+                    <h2>Coesão focada em sustentabilidade and impacto.</h2>
+                    <p>Cada linha de código otimizada e cada desafio superado na plataforma evitam toneladas de CO₂ na atmosfera.</p>
+                    <p>Transformamos ações coletivas de engenharia em doações reais para causas ambientais globais.</p>
+                </div>
+                <div class="reveal">
+                    <div class="stat-box">
+                        <div class="stat-number">1.2M</div>
+                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">De Euros convertidos para a causa em 2025</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">0 toneladas</div>
+                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">Pegada residual líquida de carbono</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 5: ENGAGE THEM ALL -->
+    <section id="stories">
+        <div class="parallax-bg"><img src="https://unsplash.com" alt="Network"></div>
+        <div class="container reveal">
+            <h2 style="font-size:2rem; font-weight:400; text-transform:uppercase; margin-bottom:10px;">Engajar todos eles.</h2>
+            <p style="color:#555; text-transform:uppercase; font-size:0.8rem; margin-bottom:40px;">Casos e documentações de tecnologia</p>
+            
+            <div class="tech-stories">
+                <div class="story-card">
+                    <span class="tag">Refactoring / Algoritmos</span>
+                    <h3>Sincronização Assíncrona</h3>
+                    <p>Como reestruturamos o pipeline de processamento distribuído para mitigar gargalos críticos em arquiteturas multithreading em tempo real.</p>
+                </div>
+                <div class="story-card">
+                    <span class="tag">UX-Motion / Interface</span>
+                    <h3>Interações Orgânicas</h3>
+                    <p>Ajustes finos em aceleração computacional direta (transformações CSS 3D) removendo dependências externas pesadas em favor do hardware nativo.</p>
+                </div>
+                <div class="story-card">
+                    <span class="tag">DevOps / Escalabilidade</span>
+                    <h3>Arquitetura Limpa</h3>
+                    <p>Implementação de microsserviços isolados gerando estabilidade contínua para suportar milhões de requisições de trackers simultâneos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ INSTITUCIONAL PROFISSIONAL -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h4>THE ORIZON</h4>
+                <p style="font-size: 0.7rem; color: #333;">ECOSISTEMA DE ALTA PERFORMANCE</p>
+            </div>
+            <div class="footer-info">
+                <h5>Sede Corporativa</h5>
+                <p>Avenida Getúlio Vargas, 671</p>
+                <p>Sala 500 Savassi</p>
+                <p>Belo Horizonte MG</p>
+                <p>CEP 30112-021</p>
+            </div>
+            <div class="footer-info">
+                <h5>Identificação Fiscal</h5>
+                <p>CNPJ: 65.992.148/0001-03</p>
+                <p>Registro Geral de Operações</p>
+            </div>
+        </div>
+        
+        <!-- BARRA FINAL: ALINHAMENTO NAS EXTREMIDADES -->
+        <div class="footer-bottom">
+            <!-- Alinhado à Esquerda -->
+            <div class="footer-copy">
+                @ 2026. TODOS OS DIREITOS RESERVADOS.
+            </div>
+            
+            <!-- Alinhado à Direita -->
+            <div class="footer-legal-links">
+                <a href="#privacy">PRIVACIDADE</a>
+                <a href="#accessibility">ACESSIBILIDADE</a>
+                <a href="#terms">TERMOS</a>
             </div>
         </div>
     </footer>
 
+    <script>
+        // 1. Menu Hamburguer Puramente Nativo e Veloz
+        const menuBtn = document.querySelector('.menu-btn');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const menuLinks = document.querySelectorAll('.menu-links a');
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuBtn.classList.toggle('open');
+            menuOverlay.classList.toggle('active');
+        });
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('open');
+                menuOverlay.classList.remove('active');
+            });
+        });
+
+        // 2. Sistema de Scroll Engine (Parallax e Fade-In nativos)
+        const allSections = document.querySelectorAll('section');
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function processScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const winHeight = window.innerHeight;
+
+            allSections.forEach(section => {
+                const sTop = section.offsetTop;
+                const sHeight = section.offsetHeight;
+
+                if (scrollTop + winHeight > sTop && scrollTop < sTop + sHeight) {
+                    const bg = section.querySelector('.parallax-bg');
+                    if (bg) {
+                        const totalScrollable = winHeight + sHeight;
+                        const progress = (scrollTop + winHeight - sTop) / totalScrollable;
+                        const yTranslation = -14 + (progress * 14);
+                        bg.style.transform = `translate3d(0, ${yTranslation}vh, 0)`;
+                    }
+                }
+            });
+
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < winHeight * 0.85) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', processScroll, { passive: true });
+        window.addEventListener('DOMContentLoaded', processScroll);
+        processScroll();
+    </script>
 </body>
 </html>
