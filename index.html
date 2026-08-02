@@ -1,613 +1,502 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <link rel="canonical" href="https://www.theorizon.com.br/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ORIZON // SQUAD TECH</title>
-    <style>
-        :root {
-            --bg-color: #080808;
-            --text-color: #ffffff;
-            --accent-color: #555555;
-            --font-main: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-main);
-            overflow-x: hidden;
-            letter-spacing: 0.1em;
-            line-height: 1.6;
-        }
-
-        /* Nav / Header Fixo Estilo Tao Tajima */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 35px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            mix-blend-mode: difference;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-
-        /* Menu Hamburguer */
-        .menu-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            width: 35px;
-            height: 35px;
-            justify-content: center;
-            align-items: flex-end;
-            z-index: 102;
-        }
-
-        .menu-btn span {
-            display: block;
-            width: 26px;
-            height: 2px;
-            background-color: white;
-            transition: transform 0.3s ease, width 0.3s ease;
-        }
-
-        .menu-btn span:nth-child(2) { width: 16px; }
-
-        .menu-btn.open span:nth-child(1) {
-            transform: translateY(4.5px) rotate(45deg);
-            width: 26px;
-        }
-        .menu-btn.open span:nth-child(2) {
-            transform: translateY(-4.5px) rotate(-45deg);
-            width: 26px;
-        }
-
-        /* Overlay do Menu */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100vh;
-            background: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 101;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        .menu-overlay.active {
-            opacity: 0.99;
-            pointer-events: auto;
-        }
-
-        .menu-links {
-            list-style: none;
-            text-align: center;
-        }
-
-        .menu-links li { margin: 25px 0; }
-
-        .menu-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 2rem;
-            font-weight: 300;
-            text-transform: uppercase;
-            transition: opacity 0.3s;
-        }
-
-        .menu-links a:hover { opacity: 0.4; }
-
-        /* Estrutura das Seções Básicas */
-        section {
-            position: relative;
-            width: 100vw;
-            min-height: 100vh;
-            padding: 140px 40px 80px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            overflow: hidden;
-            border-bottom: 1px solid #151515;
-        }
-
-        /* Efeito de Parallax das Imagens de Fundo */
-        .parallax-bg {
-            position: absolute;
-            top: -20vh;
-            left: 0;
-            width: 100%;
-            height: 140vh;
-            z-index: 1;
-            overflow: hidden;
-            will-change: transform;
-        }
-
-        .parallax-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.2) contrast(1.1) grayscale(100%);
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* SEÇÃO 1: HERO */
-        .hero-title {
-            font-size: clamp(2rem, 5vw, 4.5rem);
-            text-transform: uppercase;
-            line-height: 1.1;
-            font-weight: 400;
-            margin-bottom: 30px;
-            max-width: 900px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-
-        /* SEÇÃO 2: GRID DE CLIENTES */
-        .brand-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
-            text-align: center;
-        }
-
-        .brand-item {
-            font-size: 1.1rem;
-            font-weight: 300;
-            color: #666;
-            text-transform: uppercase;
-            border: 1px solid #1a1a1a;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.4);
-            transition: color 0.3s, border-color 0.3s;
-        }
-
-        .brand-item:hover {
-            color: #fff;
-            border-color: #444;
-        }
-
-        /* SEÇÃO 3 & 4: BENEFÍCIOS */
-        .split-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 80px;
-            align-items: center;
-        }
-
-        .stat-box { margin-bottom: 40px; }
-
-        .stat-number {
-            font-size: clamp(3rem, 7vw, 6rem);
-            font-weight: 300;
-            line-height: 1;
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-
-        .split-text h2 {
-            font-size: 2rem;
-            text-transform: uppercase;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-
-        .split-text p {
-            color: #aaa;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-        }
-
-        /* SEÇÃO 5: ENGAGE THEM ALL */
-        .tech-stories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .story-card {
-            background: rgba(15, 15, 15, 0.6);
-            border: 1px solid #1a1a1a;
-            padding: 30px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
-            will-change: transform;
-        }
-
-        .story-card:hover {
-            border-color: #333;
-            transform: translateY(-5px);
-        }
-
-        .story-card .tag {
-            font-size: 0.7rem;
-            color: #666;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .story-card h3 {
-            font-size: 1.2rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .story-card p {
-            color: #888;
-            font-size: 0.85rem;
-        }
-
-        /* Efeito de revelação */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Botões */
-        .btn {
-            padding: 15px 35px;
-            border: 1px solid white;
-            background: none;
-            color: white;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            cursor: pointer;
-            letter-spacing: 0.2em;
-            transition: background 0.3s, color 0.3s;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background: white;
-            color: black;
-        }
-
-        .btn-dark {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--accent-color);
-        }
-
-        /* RODAPÉ INSTITUCIONAL PROFISSIONAL */
-        footer {
-            background-color: #030303;
-            padding: 80px 40px 40px 40px;
-            border-top: 1px solid #111111;
-            font-size: 0.8rem;
-            color: #555555;
-            text-transform: uppercase;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            margin-bottom: 60px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .footer-brand h4 {
-            color: #ffffff;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            margin-bottom: 15px;
-        }
-
-        .footer-info h5 {
-            color: #aaaaaa;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .footer-info p {
-            line-height: 1.8;
-            margin-bottom: 5px;
-            letter-spacing: 0.05em;
-        }
-
-        /* Barra Final Alinhada nas Extremidades */
-        .footer-bottom {
-            border-top: 1px solid #111111;
-            padding-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Esquerda */
-        .footer-copy {
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-
-        /* Direita */
-        .footer-legal-links {
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
-
-        .footer-legal-links a {
-            color: #555555;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 0.75rem;
-            letter-spacing: 0.08em;
-        }
-
-        .footer-legal-links a:hover {
-            color: #ffffff;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE ORIZON | Plataformas Tecnológicas Escaláveis</title>
+  <meta name="description" content="Desenvolvimento, licenciamento e operação de plataformas SaaS escaláveis, aplicativos móveis e programas de computador sob encomenda." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/logo.png" type="image/png" />
 </head>
 <body>
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="#inicio" class="brand" aria-label="THE ORIZON início">
+        <img src="assets/logo.png" alt="THE ORIZON" class="brand-logo" />
+      </a>
 
-    <!-- Header Fixo -->
-    <header>
-        <div class="logo">THE ORIZON</div>
-        <button class="menu-btn" aria-label="Menu">
-            <span></span>
-            <span></span>
-        </button>
-    </header>
+      <nav class="mega-nav" aria-label="Principal">
+        <div class="mega-item" data-mega="saas">
+          <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-saas">
+            SaaS
+          </button>
+          <div class="mega-panel" id="mega-saas" role="region" aria-label="SaaS">
+            <div class="mega-panel-inner mega-panel-inner--4">
+              <div class="mega-col">
+                <span class="mega-col-title">Plataformas</span>
+                <a href="#saas"><strong>Cloud Core</strong><span>Infraestrutura multi-tenant</span></a>
+                <a href="#saas"><strong>API Gateway</strong><span>Integrações e microserviços</span></a>
+                <a href="#operacao"><strong>Observabilidade</strong><span>Monitoramento e SRE</span></a>
+                <a href="#operacao"><strong>Data Plane</strong><span>Dados e analytics em escala</span></a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-title">Setores</span>
+                <a href="#saas"><strong>Fintech</strong><span>Pagamentos e banking</span></a>
+                <a href="#saas"><strong>Healthtech</strong><span>Saúde e telemedicina</span></a>
+                <a href="#saas"><strong>Edtech</strong><span>Educação digital</span></a>
+                <a href="#saas"><strong>Retail</strong><span>Varejo e e-commerce</span></a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-title">Operação</span>
+                <a href="#operacao"><strong>Licenciamento</strong><span>Modelos comerciais flexíveis</span></a>
+                <a href="#operacao"><strong>SLA 99.9%</strong><span>Disponibilidade contínua</span></a>
+                <a href="#operacao"><strong>Security</strong><span>Zero-trust e compliance</span></a>
+                <a href="#operacao"><strong>CI/CD</strong><span>Deploy e automação</span></a>
+              </div>
+              <div class="mega-feat">
+                <span class="mega-col-title">Destaque</span>
+                <p>Plataformas SaaS escaláveis, do código à produção, com operação contínua.</p>
+                <a href="#saas" class="mega-feat-link">Explorar SaaS</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <!-- Menu Lateral -->
-    <nav class="menu-overlay">
-        <ul class="menu-links">
-            <li><a href="#hero">Início</a></li>
-            <li><a href="#ecosystem">Ecossistema</a></li>
-            <li><a href="#impact">Impacto Real</a></li>
-            <li><a href="#cohesion">Coesão Tech</a></li>
-            <li><a href="#stories">Histórias</a></li>
+        <div class="mega-item" data-mega="produtos">
+          <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-produtos">
+            Produtos
+          </button>
+          <div class="mega-panel" id="mega-produtos" role="region" aria-label="Produtos">
+            <div class="mega-panel-inner mega-panel-inner--4">
+              <div class="mega-col">
+                <span class="mega-col-title">Mobile</span>
+                <a href="#mobile"><strong>Apps iOS</strong><span>Experiências nativas Apple</span></a>
+                <a href="#mobile"><strong>Apps Android</strong><span>Performance e escala Google</span></a>
+                <a href="#mobile"><strong>Cross-platform</strong><span>React Native e Flutter</span></a>
+                <a href="#mobile"><strong>Offline-first</strong><span>Sincronização inteligente</span></a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-title">Software</span>
+                <a href="#encomenda"><strong>Sob encomenda</strong><span>Programas sob medida</span></a>
+                <a href="#encomenda"><strong>ERP / CRM</strong><span>Sistemas de gestão</span></a>
+                <a href="#encomenda"><strong>Portais</strong><span>Web corporativa e B2B</span></a>
+                <a href="#encomenda"><strong>Integrações</strong><span>APIs e conectores</span></a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-title">Verticals</span>
+                <a href="#saas"><strong>Logística</strong><span>Tracking e supply chain</span></a>
+                <a href="#saas"><strong>Indústria</strong><span>IoT e automação</span></a>
+                <a href="#saas"><strong>Imobiliário</strong><span>Proptech e gestão</span></a>
+                <a href="#saas"><strong>Agro</strong><span>Agritech e field ops</span></a>
+              </div>
+              <div class="mega-feat">
+                <span class="mega-col-title">Destaque</span>
+                <p>Produtos digitais para mobile, web e setores especializados.</p>
+                <a href="#mobile" class="mega-feat-link">Ver produtos</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mega-item" data-mega="destaque">
+          <button type="button" class="mega-trigger" aria-expanded="false" aria-controls="mega-destaque">
+            Destaque
+          </button>
+          <div class="mega-panel" id="mega-destaque" role="region" aria-label="Destaque">
+            <div class="mega-panel-inner mega-panel-inner--4">
+              <div class="mega-col">
+                <span class="mega-col-title">Capacidades</span>
+                <a href="#visao"><strong>Arquitetura</strong><span>Cloud-native e escalável</span></a>
+                <a href="#saas"><strong>Multi-tenant</strong><span>Isolamento e performance</span></a>
+                <a href="#operacao"><strong>DevOps</strong><span>Pipelines e automação</span></a>
+                <a href="#operacao"><strong>IA &amp; Dados</strong><span>Modelos e telemetria</span></a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-title">Soluções</span>
+                <a href="#saas"><strong>White-label</strong><span>Marca própria do cliente</span></a>
+                <a href="#operacao"><strong>Marketplace</strong><span>Ecossistema de apps</span></a>
+                <a href="#mobile"><strong>Super App</strong><span>Módulos em um só app</span></a>
+                <a href="#encomenda"><strong>MVP rápido</strong><span>Do protótipo ao launch</span></a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-col-title">Empresa</span>
+                <a href="#visao"><strong>Visão</strong><span>Tecnologia de precisão</span></a>
+                <a href="#encomenda"><strong>Método</strong><span>Discovery até Launch</span></a>
+                <a href="#contato"><strong>Parceiros</strong><span>Ecossistema The Orizon</span></a>
+                <a href="#contato"><strong>Carreiras</strong><span>Engenharia e produto</span></a>
+              </div>
+              <div class="mega-feat">
+                <span class="mega-col-title">Destaque</span>
+                <p>Infraestrutura digital além do horizonte, com setores e produtos conectados.</p>
+                <a href="#contato" class="mega-feat-link">Iniciar conversa</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contato" class="nav-cta">Contato</a>
+      </nav>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav" hidden>
+    <details>
+      <summary>SaaS</summary>
+      <a href="#saas">Cloud Core</a>
+      <a href="#saas">Fintech</a>
+      <a href="#saas">Healthtech</a>
+      <a href="#saas">Edtech</a>
+      <a href="#operacao">Licenciamento</a>
+      <a href="#operacao">Operação</a>
+    </details>
+    <details>
+      <summary>Produtos</summary>
+      <a href="#mobile">Apps iOS</a>
+      <a href="#mobile">Apps Android</a>
+      <a href="#mobile">Cross-platform</a>
+      <a href="#encomenda">Sob encomenda</a>
+      <a href="#encomenda">ERP / CRM</a>
+      <a href="#saas">Logística</a>
+      <a href="#saas">Indústria</a>
+    </details>
+    <details>
+      <summary>Destaque</summary>
+      <a href="#visao">Arquitetura</a>
+      <a href="#saas">White-label</a>
+      <a href="#mobile">Super App</a>
+      <a href="#encomenda">MVP rápido</a>
+      <a href="#contato">Parceiros</a>
+    </details>
+    <a href="#contato" class="mobile-cta">Contato</a>
+  </div>
+
+  <main>
+    <!-- 1. HERO -->
+    <section class="hero" id="inicio">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-orb hero-orb--a"></div>
+        <div class="hero-orb hero-orb--b"></div>
+        <div class="hero-horizon"></div>
+      </div>
+      <div class="hero-shell">
+        <div class="hero-content">
+          <img src="assets/logo.png" alt="THE ORIZON" class="hero-logo reveal" />
+          <h1 class="hero-title reveal delay-1">
+            Infraestrutura digital<br />além do horizonte
+          </h1>
+          <p class="hero-sub reveal delay-2">
+            Desenvolvimento, licenciamento e operação de plataformas tecnológicas
+            escaláveis, aplicativos móveis e software sob encomenda.
+          </p>
+          <div class="hero-actions reveal delay-3">
+            <a href="#saas" class="btn btn-primary">Explorar plataformas</a>
+            <a href="#contato" class="btn btn-ghost">Iniciar conversa</a>
+          </div>
+        </div>
+        <div class="hero-figure reveal delay-2" aria-hidden="true">
+          <img
+            src="assets/hero-14-orizon.webp"
+            alt=""
+            class="hero-man"
+            width="951"
+            height="1174"
+          />
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- 2. VISÃO -->
+    <section class="section vision" id="visao">
+      <div class="section-rail">
+        <span class="section-index">01</span>
+        <span class="section-label">Visão</span>
+      </div>
+      <div class="vision-layout">
+        <div class="vision-copy">
+          <h2 class="section-title reveal">
+            Tecnologia que escala<br />com precisão
+          </h2>
+          <p class="section-lead reveal delay-1">
+            A The Orizon projeta e opera sistemas digitais de alto desempenho,
+            do código à produção, com arquitetura pensada para crescer sem
+            fricção e operar com confiabilidade crítica.
+          </p>
+        </div>
+        <aside class="vision-stats reveal delay-2">
+          <div class="stat">
+            <span class="stat-value" data-count="3">0</span>
+            <span class="stat-unit">pilares</span>
+            <span class="stat-desc">SaaS · Mobile · Encomenda</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">∞</span>
+            <span class="stat-unit">escala</span>
+            <span class="stat-desc">Arquitetura cloud-native</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">24<span class="stat-slash">/</span>7</span>
+            <span class="stat-unit">operação</span>
+            <span class="stat-desc">Monitoramento contínuo</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 3. SAAS -->
+    <section class="section saas" id="saas">
+      <div class="section-rail">
+        <span class="section-index">02</span>
+        <span class="section-label">SaaS</span>
+      </div>
+      <div class="saas-head">
+        <h2 class="section-title reveal">Plataformas SaaS escaláveis</h2>
+        <p class="section-lead reveal delay-1">
+          Construímos, licenciamos e operamos plataformas tecnológicas sob
+          demanda: multi-tenant, seguras e preparadas para crescimento
+          acelerado.
+        </p>
+      </div>
+      <div class="saas-split">
+        <div class="saas-visual reveal" aria-hidden="true">
+          <div class="panel-frame">
+            <div class="panel-bar">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="panel-body">
+              <div class="panel-row">
+                <span class="panel-tag">CORE</span>
+                <span class="panel-line"></span>
+                <span class="panel-pct">99.9%</span>
+              </div>
+              <div class="panel-graph">
+                <div class="bar" style="--h:42%"></div>
+                <div class="bar" style="--h:68%"></div>
+                <div class="bar" style="--h:55%"></div>
+                <div class="bar" style="--h:88%"></div>
+                <div class="bar" style="--h:72%"></div>
+                <div class="bar" style="--h:95%"></div>
+                <div class="bar" style="--h:80%"></div>
+              </div>
+              <div class="panel-nodes">
+                <div class="node active"><i></i>API Gateway</div>
+                <div class="node active"><i></i>Auth Layer</div>
+                <div class="node"><i></i>Workers</div>
+                <div class="node active"><i></i>Data Plane</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="saas-list">
+          <li class="reveal delay-1">
+            <span class="list-num">01</span>
+            <div>
+              <strong>Desenvolvimento</strong>
+              <p>Arquitetura modular, APIs robustas e pipelines de entrega contínua.</p>
+            </div>
+          </li>
+          <li class="reveal delay-2">
+            <span class="list-num">02</span>
+            <div>
+              <strong>Licenciamento</strong>
+              <p>Modelos comerciais flexíveis para distribuição e monetização da plataforma.</p>
+            </div>
+          </li>
+          <li class="reveal delay-3">
+            <span class="list-num">03</span>
+            <div>
+              <strong>Operação</strong>
+              <p>Observabilidade, SRE e evolução contínua em ambiente de produção.</p>
+            </div>
+          </li>
         </ul>
-    </nav>
-
-    <!-- SEÇÃO 1: HERO -->
-    <section id="hero">
-        <div class="parallax-bg"><img src="https://unsplash.com" alt="Tech"></div>
-        <div class="container reveal">
-            <h1 class="hero-title">Você nunca esteve tão próximo de integrar seu sistema de tecnologia.</h1>
-            <p>Conectando engenheiros e desenvolvedores através de dinâmicas inteligentes baseadas em dados estruturados.</p>
-            <div class="hero-buttons">
-                <a href="#stories" class="btn">Sistema Digital</a>
-                <a href="#ecosystem" class="btn btn-dark">Tecnologia Escalável</a>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- SEÇÃO 2: ECOSSISTEMA / CLIENTES -->
-    <section id="ecosystem">
-        <div class="container reveal">
-            <p style="font-size:0.8rem; color:#555; text-transform:uppercase; margin-bottom: 20px;">Marcas que escalam conosco</p>
-            <div class="brand-grid">
-                <div class="brand-item">Decathlon</div>
-                <div class="brand-item">X'Oreal</div>
-                <div class="brand-item">Edenred</div>
-                <div class="brand-item">Safrangen</div>
-            </div>
+    <!-- 4. MOBILE -->
+    <section class="section mobile" id="mobile">
+      <div class="section-rail">
+        <span class="section-index">03</span>
+        <span class="section-label">Mobile</span>
+      </div>
+      <div class="mobile-layout">
+        <div class="mobile-copy">
+          <h2 class="section-title reveal">Aplicativos móveis</h2>
+          <p class="section-lead reveal delay-1">
+            Experiências nativas e multiplataforma com performance de missão:
+            interfaces precisas, sincronização em tempo real e integração
+            profunda com o ecossistema SaaS.
+          </p>
+          <ul class="feature-strip reveal delay-2">
+            <li>iOS &amp; Android</li>
+            <li>React Native / Flutter</li>
+            <li>Offline-first</li>
+            <li>Push &amp; telemetria</li>
+          </ul>
         </div>
+        <div class="phone-stack reveal delay-1">
+          <img
+            src="assets/Apple-IPhone-Transparent-Background-PNG.png"
+            alt="iPhones com aplicativos móveis nativos e multiplataforma"
+            class="phone-image"
+            width="800"
+            height="800"
+          />
+        </div>
+      </div>
     </section>
 
-    <!-- SEÇÃO 3: IMPACTO E PRODUTIVIDADE -->
-    <section id="impact">
-        <div class="parallax-bg"><img src="https://unsplash.com" alt="Code"></div>
-        <div class="container">
-            <div class="split-grid">
-                <div class="reveal">
-                    <div class="stat-box">
-                        <div class="stat-number">+7.4%</div>
-                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">Aumento médio em produtividade por dev</p>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">85%</div>
-                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">Engajamento sustentável no workplace</p>
-                    </div>
-                </div>
-                <div class="split-text reveal">
-                    <h2>Produtividade sim, mas com saúde mental.</h2>
-                    <p>Nossa inteligência computacional mapeia e estimula a mobilidade diária e o equilíbrio físico dos times de programação.</p>
-                    <p>Ao quebrar o isolamento técnico, elevamos a coesão das equipes de desenvolvimento sem gerar sobrecarga.</p>
-                </div>
-            </div>
+    <!-- 5. ENCOMENDA -->
+    <section class="section custom" id="encomenda">
+      <div class="section-rail">
+        <span class="section-index">04</span>
+        <span class="section-label">Encomenda</span>
+      </div>
+      <div class="custom-layout">
+        <h2 class="section-title reveal">
+          Desenvolvimento de programas<br />de computador sob encomenda
+        </h2>
+        <p class="section-lead reveal delay-1">
+          Soluções sob medida para desafios específicos, do protótipo ao
+          sistema em produção, com engenharia disciplinada e entrega previsível.
+        </p>
+        <div class="process">
+          <article class="process-step reveal delay-1">
+            <span class="process-num">I</span>
+            <h3>Discovery</h3>
+            <p>Mapeamento de requisitos, riscos e restrições técnicas.</p>
+          </article>
+          <article class="process-step reveal delay-2">
+            <span class="process-num">II</span>
+            <h3>Arquitetura</h3>
+            <p>Desenho de sistemas, dados e interfaces de integração.</p>
+          </article>
+          <article class="process-step reveal delay-3">
+            <span class="process-num">III</span>
+            <h3>Build</h3>
+            <p>Implementação iterativa com qualidade e rastreabilidade.</p>
+          </article>
+          <article class="process-step reveal delay-4">
+            <span class="process-num">IV</span>
+            <h3>Launch</h3>
+            <p>Deploy, hardening e transferência operacional.</p>
+          </article>
         </div>
+      </div>
     </section>
 
-    <!-- SEÇÃO 4: COESÃO TECH -->
-    <section id="cohesion">
-        <div class="container">
-            <div class="split-grid">
-                <div class="split-text reveal">
-                    <h2>Coesão focada em sustentabilidade and impacto.</h2>
-                    <p>Cada linha de código otimizada e cada desafio superado na plataforma evitam toneladas de CO₂ na atmosfera.</p>
-                    <p>Transformamos ações coletivas de engenharia em doações reais para causas ambientais globais.</p>
-                </div>
-                <div class="reveal">
-                    <div class="stat-box">
-                        <div class="stat-number">1.2M</div>
-                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">De Euros convertidos para a causa em 2025</p>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">0 toneladas</div>
-                        <p style="color:#666; text-transform:uppercase; font-size:0.8rem;">Pegada residual líquida de carbono</p>
-                    </div>
-                </div>
-            </div>
+    <!-- 6. OPERAÇÃO + CONTATO -->
+    <section class="section operate" id="operacao">
+      <div class="section-rail">
+        <span class="section-index">05</span>
+        <span class="section-label">Operação</span>
+      </div>
+      <div class="operate-banner reveal">
+        <div class="operate-copy">
+          <h2 class="section-title">Licenciamento e operação contínua</h2>
+          <p class="section-lead">
+            Não apenas entregamos software: operamos plataformas. Licenciamento
+            comercial, SLAs, manutenção evolutiva e governança técnica para que
+            sua infraestrutura permaneça no ar e à frente.
+          </p>
         </div>
+        <div class="operate-grid" aria-hidden="true">
+          <div class="op-cell"><span>SLA</span><strong>99.9%</strong></div>
+          <div class="op-cell"><span>Deploy</span><strong>CI/CD</strong></div>
+          <div class="op-cell"><span>Security</span><strong>Zero-trust</strong></div>
+          <div class="op-cell"><span>Scale</span><strong>Auto</strong></div>
+        </div>
+      </div>
     </section>
 
-    <!-- SEÇÃO 5: ENGAGE THEM ALL -->
-    <section id="stories">
-        <div class="parallax-bg"><img src="https://unsplash.com" alt="Network"></div>
-        <div class="container reveal">
-            <h2 style="font-size:2rem; font-weight:400; text-transform:uppercase; margin-bottom:10px;">Engajar todos eles.</h2>
-            <p style="color:#555; text-transform:uppercase; font-size:0.8rem; margin-bottom:40px;">Casos e documentações de tecnologia</p>
-            
-            <div class="tech-stories">
-                <div class="story-card">
-                    <span class="tag">Refactoring / Algoritmos</span>
-                    <h3>Sincronização Assíncrona</h3>
-                    <p>Como reestruturamos o pipeline de processamento distribuído para mitigar gargalos críticos em arquiteturas multithreading em tempo real.</p>
-                </div>
-                <div class="story-card">
-                    <span class="tag">UX-Motion / Interface</span>
-                    <h3>Interações Orgânicas</h3>
-                    <p>Ajustes finos em aceleração computacional direta (transformações CSS 3D) removendo dependências externas pesadas em favor do hardware nativo.</p>
-                </div>
-                <div class="story-card">
-                    <span class="tag">DevOps / Escalabilidade</span>
-                    <h3>Arquitetura Limpa</h3>
-                    <p>Implementação de microsserviços isolados gerando estabilidade contínua para suportar milhões de requisições de trackers simultâneos.</p>
-                </div>
-            </div>
+    <section class="section contact" id="contato">
+      <div class="section-rail">
+        <span class="section-index">06</span>
+        <span class="section-label">Contato</span>
+      </div>
+      <div class="contact-layout">
+        <div class="contact-copy">
+          <h2 class="section-title reveal">Pronto para cruzar<br />o horizonte?</h2>
+          <p class="section-lead reveal delay-1">
+            Conte-nos sobre sua plataforma, produto móvel ou sistema sob
+            encomenda. Resposta técnica, sem ruído.
+          </p>
         </div>
+        <form class="contact-form reveal delay-2" id="contactForm">
+          <label>
+            <span>Nome</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Seu nome" />
+          </label>
+          <label>
+            <span>E-mail</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="voce@empresa.com" />
+          </label>
+          <label class="full">
+            <span>Projeto</span>
+            <textarea name="message" rows="4" required placeholder="SaaS, mobile ou desenvolvimento sob encomenda"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary full">Enviar mensagem</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </section>
+  </main>
 
-    <!-- RODAPÉ INSTITUCIONAL PROFISSIONAL -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h4>THE ORIZON</h4>
-                <p style="font-size: 0.7rem; color: #333;">ECOSISTEMA DE ALTA PERFORMANCE</p>
-            </div>
-            <div class="footer-info">
-                <h5>Sede Corporativa</h5>
-                <p>Avenida Getúlio Vargas, 671</p>
-                <p>Sala 500 Savassi</p>
-                <p>Belo Horizonte MG</p>
-                <p>CEP 30112-021</p>
-            </div>
-            <div class="footer-info">
-                <h5>Identificação Fiscal</h5>
-                <p>CNPJ: 65.992.148/0001-03</p>
-                <p>Registro Geral de Operações</p>
-            </div>
+  <footer class="mega-footer">
+    <div class="mega-footer-inner">
+      <div class="mega-footer-brand">
+        <a href="#inicio" class="brand" aria-label="THE ORIZON">
+          <img src="assets/logo.png" alt="THE ORIZON" class="brand-logo brand-logo--footer" />
+        </a>
+        <p class="mega-footer-tagline">Desenvolvimento · Licenciamento · Operação</p>
+        <p>
+          Desenvolvimento, licenciamento e operação de plataformas tecnológicas
+          escaláveis (SaaS), aplicativos móveis e programas de computador sob encomenda.
+        </p>
+        <a href="#contato" class="btn btn-primary">Fale conosco</a>
+      </div>
+
+      <div class="mega-footer-cols">
+        <div class="mega-footer-col">
+          <h3>Plataformas</h3>
+          <a href="#saas">SaaS escaláveis</a>
+          <a href="#mobile">Aplicativos móveis</a>
+          <a href="#encomenda">Sob encomenda</a>
+          <a href="#operacao">Operação e SLA</a>
         </div>
-        
-        <!-- BARRA FINAL: ALINHAMENTO NAS EXTREMIDADES -->
-        <div class="footer-bottom">
-            <!-- Alinhado à Esquerda -->
-            <div class="footer-copy">
-                @ 2026. TODOS OS DIREITOS RESERVADOS.
-            </div>
-            
-            <!-- Alinhado à Direita -->
-            <div class="footer-legal-links">
-                <a href="privacidade.html">PRIVACIDADE</a>
-                <a href="acessibilidade.html">ACESSIBILIDADE</a>
-                <a href="termos.html">TERMOS</a>
-            </div>
+        <div class="mega-footer-col">
+          <h3>Serviços</h3>
+          <a href="#saas">Desenvolvimento</a>
+          <a href="#operacao">Licenciamento</a>
+          <a href="#operacao">Operação contínua</a>
+          <a href="#encomenda">Software sob medida</a>
         </div>
-    </footer>
+        <div class="mega-footer-col">
+          <h3>Empresa</h3>
+          <a href="#visao">Visão</a>
+          <a href="#encomenda">Método</a>
+          <a href="#contato">Contato</a>
+        </div>
+        <div class="mega-footer-col">
+          <h3>Contato</h3>
+          <a href="#contato">Iniciar projeto</a>
+          <a href="mailto:contato@theorizon.tech">contato@theorizon.tech</a>
+          <p class="mega-footer-note">Resposta técnica para SaaS, mobile e encomenda.</p>
+        </div>
+      </div>
+    </div>
 
-    <script>
-        // 1. Menu Hamburguer Puramente Nativo e Veloz
-        const menuBtn = document.querySelector('.menu-btn');
-        const menuOverlay = document.querySelector('.menu-overlay');
-        const menuLinks = document.querySelectorAll('.menu-links a');
+    <div class="mega-footer-bottom">
+      <p>© <span id="year"></span> The Orizon Technologies. Todos os direitos reservados.</p>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="privacidade.html">Privacidade</a>
+        <a href="acessibilidade.html">Acessibilidade</a>
+        <a href="termos.html">Termos legais</a>
+      </nav>
+    </div>
+  </footer>
 
-        menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            menuBtn.classList.toggle('open');
-            menuOverlay.classList.toggle('active');
-        });
-
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuBtn.classList.remove('open');
-                menuOverlay.classList.remove('active');
-            });
-        });
-
-        // 2. Sistema de Scroll Engine (Parallax e Fade-In nativos)
-        const allSections = document.querySelectorAll('section');
-        const revealElements = document.querySelectorAll('.reveal');
-
-        function processScroll() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const winHeight = window.innerHeight;
-
-            allSections.forEach(section => {
-                const sTop = section.offsetTop;
-                const sHeight = section.offsetHeight;
-
-                if (scrollTop + winHeight > sTop && scrollTop < sTop + sHeight) {
-                    const bg = section.querySelector('.parallax-bg');
-                    if (bg) {
-                        const totalScrollable = winHeight + sHeight;
-                        const progress = (scrollTop + winHeight - sTop) / totalScrollable;
-                        const yTranslation = -14 + (progress * 14);
-                        bg.style.transform = `translate3d(0, ${yTranslation}vh, 0)`;
-                    }
-                }
-            });
-
-            revealElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                if (elementTop < winHeight * 0.85) {
-                    element.classList.add('visible');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', processScroll, { passive: true });
-        window.addEventListener('DOMContentLoaded', processScroll);
-        processScroll();
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
