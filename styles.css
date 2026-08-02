@@ -658,7 +658,7 @@ textarea {
 
 @media (max-width: 959px) {
   .hero-shell {
-    grid-template-rows: minmax(300px, 46vh) auto;
+    grid-template-rows: minmax(280px, 42vh) auto;
     padding-right: clamp(1.25rem, 4vw, 3rem);
   }
   .hero-figure {
@@ -666,7 +666,7 @@ textarea {
     justify-content: center;
     align-items: flex-end;
     height: 100%;
-    min-height: 280px;
+    min-height: 260px;
   }
   .hero-content {
     padding-top: 1rem;
@@ -683,7 +683,6 @@ textarea {
   object-position: right bottom;
   background: transparent;
   filter: drop-shadow(0 24px 40px rgba(10, 30, 70, 0.14));
-  transform: none;
 }
 
 @media (min-width: 960px) {
@@ -692,15 +691,7 @@ textarea {
     max-height: 100%;
     width: auto;
     max-width: 100%;
-    transform: none;
     object-position: right bottom;
-  }
-}
-
-@media (min-width: 1200px) {
-  .hero-man {
-    height: 100%;
-    transform: none;
   }
 }
 
@@ -762,6 +753,55 @@ textarea {
 @keyframes scroll-line {
   0%, 100% { transform: scaleX(0.6); opacity: 0.5; transform-origin: left; }
   50% { transform: scaleX(1); opacity: 1; }
+}
+
+/* ——— Showcase ——— */
+.showcase {
+  overflow: hidden;
+}
+
+.showcase-layout {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .showcase-layout {
+    grid-template-columns: 1fr 1.05fr;
+    gap: 3.5rem;
+  }
+}
+
+.showcase-copy .section-title {
+  margin-bottom: 1.25rem;
+}
+
+.showcase-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.showcase-image {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+  filter: drop-shadow(0 28px 48px rgba(10, 30, 70, 0.16));
+  animation: showcase-float 8s ease-in-out infinite;
+}
+
+@media (min-width: 900px) {
+  .showcase-image {
+    width: min(100%, 480px);
+  }
+}
+
+@keyframes showcase-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* ——— Vision ——— */
@@ -1407,6 +1447,7 @@ textarea {
   .hero-orb,
   .hero-horizon,
   .hero-scroll-line,
+  .showcase-image,
   .phone-image,
   .panel-graph .bar,
   .node.active i {
