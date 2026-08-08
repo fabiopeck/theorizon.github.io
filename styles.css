@@ -1965,7 +1965,7 @@ body.cookie-locked .help-dock {
 .help-panel {
   display: none;
   width: min(380px, calc(100vw - 2rem));
-  max-height: min(78vh, 640px);
+  max-height: min(85vh, 680px);
   flex-direction: column;
   border-radius: 22px;
   overflow: hidden;
@@ -2033,9 +2033,9 @@ body.cookie-locked .help-dock {
 }
 
 .help-thread {
-  flex: 1 1 auto;
-  min-height: 72px;
-  max-height: 140px;
+  flex: 1 1 0;
+  min-height: 48px;
+  max-height: none;
   overflow-y: auto;
   padding: 0.75rem 1rem;
   display: flex;
@@ -2077,15 +2077,15 @@ body.cookie-locked .help-dock {
 .help-form {
   flex-shrink: 0;
   display: grid;
-  gap: 0.55rem;
-  padding: 0.85rem 1rem 1rem;
+  gap: 0.45rem;
+  padding: 0.75rem 1rem 0.85rem;
   border-top: 1px solid var(--line);
   background: #fff;
 }
 
 .help-form label {
   display: grid;
-  gap: 0.2rem;
+  gap: 0.15rem;
 }
 
 .help-form label span {
@@ -2098,7 +2098,7 @@ body.cookie-locked .help-dock {
 .help-form input,
 .help-form textarea {
   width: 100%;
-  padding: 0.6rem 0.7rem;
+  padding: 0.55rem 0.7rem;
   border-radius: 10px;
   border: 1px solid var(--line-strong);
   background: #fff;
@@ -2107,13 +2107,15 @@ body.cookie-locked .help-dock {
 
 .help-form textarea {
   resize: vertical;
-  min-height: 64px;
-  max-height: 120px;
+  min-height: 52px;
+  max-height: 96px;
 }
 
 .help-form .btn {
   width: 100%;
   justify-content: center;
+  margin-top: 0.15rem;
+  padding: 0.85rem 1.2rem;
 }
 
 @media (max-width: 640px) {
@@ -2140,9 +2142,9 @@ body.cookie-locked .help-dock {
   }
   .help-panel {
     width: calc(100vw - 1.3rem);
-    max-height: 75vh;
+    max-height: min(82vh, 640px);
   }
   .help-thread {
-    max-height: 100px;
+    min-height: 40px;
   }
 }
