@@ -20,24 +20,42 @@
     );
     const mailto = `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;
 
-    const payload = new FormData();
-    payload.append("name", name);
-    payload.append("email", email);
-    payload.append("message", message);
-    payload.append("_subject", `${source} — ${name}`);
-    payload.append("_template", "table");
-    payload.append("_captcha", "false");
-    payload.append("_replyto", email);
+    const payload = {
+      name,
+      email,
+      message,
+      _subject: `${source} — ${name}`,
+      _template: "table",
+      _captcha: "false",
+      _replyto: email,
+    };
 
     return fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
       method: "POST",
-      body: payload,
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     }).then(async (res) => {
-      if (!res.ok) throw new Error("formsubmit_failed");
-      return res.json().catch(() => ({}));
-    }).catch(() => {
+      const data = await res.json().catch(() => ({}));
+      const msg = String(data.message || "");
+      if (String(data.success) === "false" || /activation/i.test(msg)) {
+        const err = new Error(msg || "formsubmit_failed");
+        err.code = /activation/i.test(msg) ? "NEEDS_ACTIVATION" : "FORMSUBMIT_FAILED";
+        throw err;
+      }
+      if (!res.ok) {
+        const err = new Error("formsubmit_failed");
+        err.code = "FORMSUBMIT_FAILED";
+        throw err;
+      }
+      return data;
+    }).catch((err) => {
+      if (err?.code === "NEEDS_ACTIVATION") throw err;
+      // Fallback: abre o cliente de e-mail do visitante
       window.location.href = mailto;
+      return { fallback: "mailto" };
     });
   };
 
@@ -203,8 +221,13 @@
         formStatus.textContent = `Obrigado, ${name}. Recebemos sua mensagem. Em breve entramos em contato.`;
       }
       form.reset();
-    } catch {
-      if (formStatus) {
+    } catch (err) {
+      if (err?.code === "NEEDS_ACTIVATION") {
+        if (formStatus) {
+          formStatus.textContent =
+            "Quase lá: abra o e-mail contato@theorizon.com.br e clique em Activate Form (FormSubmit). Depois tente de novo.";
+        }
+      } else if (formStatus) {
         formStatus.textContent = "Não foi possível enviar agora. Tente novamente em instantes.";
       }
     } finally {
