@@ -13,6 +13,34 @@
 
   if (year) year.textContent = String(new Date().getFullYear());
 
+  const sendEmailNotify = (name, email, message, source = "Site The Orizon") => {
+    const subject = encodeURIComponent(`${source} — ${name}`);
+    const body = encodeURIComponent(
+      `Nome: ${name}\nE-mail: ${email}\n\nMensagem:\n${message}\n\n— Enviado pelo ${source}`
+    );
+    const mailto = `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;
+
+    const payload = new FormData();
+    payload.append("name", name);
+    payload.append("email", email);
+    payload.append("message", message);
+    payload.append("_subject", `${source} — ${name}`);
+    payload.append("_template", "table");
+    payload.append("_captcha", "false");
+    payload.append("_replyto", email);
+
+    return fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
+      method: "POST",
+      body: payload,
+      headers: { Accept: "application/json" },
+    }).then(async (res) => {
+      if (!res.ok) throw new Error("formsubmit_failed");
+      return res.json().catch(() => ({}));
+    }).catch(() => {
+      window.location.href = mailto;
+    });
+  };
+
   const onScroll = () => {
     header?.classList.toggle("is-scrolled", window.scrollY > 24);
   };
@@ -154,14 +182,37 @@
   );
   stats.forEach((el) => countIo.observe(el));
 
-  form?.addEventListener("submit", (e) => {
+  form?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = new FormData(form);
     const name = String(data.get("name") || "").trim();
-    if (formStatus) {
-      formStatus.textContent = `Obrigado, ${name}. Recebemos sua mensagem. Em breve entramos em contato.`;
+    const email = String(data.get("email") || "").trim();
+    const message = String(data.get("message") || "").trim();
+    if (!name || !email || !message) return;
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando…";
     }
-    form.reset();
+    if (formStatus) formStatus.textContent = "Enviando sua mensagem…";
+
+    try {
+      await sendEmailNotify(name, email, message, "Contato site");
+      if (formStatus) {
+        formStatus.textContent = `Obrigado, ${name}. Recebemos sua mensagem. Em breve entramos em contato.`;
+      }
+      form.reset();
+    } catch {
+      if (formStatus) {
+        formStatus.textContent = "Não foi possível enviar agora. Tente novamente em instantes.";
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar mensagem";
+      }
+    }
   });
 
   const orbs = document.querySelectorAll(".hero-orb");
@@ -348,31 +399,6 @@
     addBubble("Atendente disponível. Recebemos sua mensagem e já estamos analisando.");
   };
 
-  const sendEmailNotify = (name, email, message) => {
-    const subject = encodeURIComponent(`Atendimento site — ${name}`);
-    const body = encodeURIComponent(
-      `Nome: ${name}\nE-mail: ${email}\n\nMensagem:\n${message}\n\n— Enviado pela Central de atendimento do site`
-    );
-    const mailto = `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;
-
-    // FormSubmit (sem backend). Se bloquear, cai no mailto.
-    const payload = new FormData();
-    payload.append("name", name);
-    payload.append("email", email);
-    payload.append("message", message);
-    payload.append("_subject", `Atendimento site — ${name}`);
-    payload.append("_template", "table");
-    payload.append("_captcha", "false");
-
-    return fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
-      method: "POST",
-      body: payload,
-      headers: { Accept: "application/json" },
-    }).catch(() => {
-      window.location.href = mailto;
-    });
-  };
-
   const sendWhatsAppSilent = (name, email, message) => {
     if (!WHATSAPP_NUMBER) return;
     const text = encodeURIComponent(
@@ -413,7 +439,7 @@
     if (submitBtn) submitBtn.textContent = "Enviando…";
 
     await runQueue();
-    await sendEmailNotify(name, email, message);
+    await sendEmailNotify(name, email, message, "Atendimento site");
     sendWhatsAppSilent(name, email, message);
 
     await sleep(900);
