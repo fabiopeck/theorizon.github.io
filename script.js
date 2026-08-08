@@ -308,10 +308,6 @@
   const openHelp = () => {
     helpDock?.classList.add("is-open");
     helpFab?.setAttribute("aria-expanded", "true");
-    if (helpThread && !helpThread.dataset.greeted) {
-      helpThread.dataset.greeted = "1";
-      addBubble("Olá, seja Bem Vindo(a)!");
-    }
   };
 
   const closeHelp = () => {
