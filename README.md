@@ -2,4 +2,4 @@
 
 Site institucional da The Orizon Technologies.
 
-Publicado via GitHub Pages em [www.theorizon.com.br](https://www.theorizon.com.br).
+Publicado via GitHub Pages em [https://theorizon.com.br](https://theorizon.com.br).
